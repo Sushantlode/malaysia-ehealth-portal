@@ -8,8 +8,7 @@ const PM_SOURCES = [
   "/assets/portrait-placeholder.svg",
 ];
 
-/** Served from Magnific via /api/doctor-image on Vercel; local fallback in dev. */
-const DOCTOR_IMAGE = import.meta.env.PROD ? "/api/doctor-image" : "/assets/doctor-magnific.jpg";
+const DOCTOR_IMAGE = `${import.meta.env.BASE_URL}assets/doctor-magnific.jpg`;
 
 const BPO_SOURCES = [
   "/assets/bpo-center.jpg",
