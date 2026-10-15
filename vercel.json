@@ -2,5 +2,15 @@
   "framework": "vite",
   "buildCommand": "npm run build",
   "outputDirectory": "dist",
-  "installCommand": "npm install"
+  "installCommand": "npm install",
+  "rewrites": [
+    {
+      "source": "/TATA_postgres/:path*",
+      "destination": "http://15.252.193.15:8080/TATA_postgres/:path*"
+    },
+    {
+      "source": "/hims-ui/:path*",
+      "destination": "http://15.252.193.15:8080/hims-ui/:path*"
+    }
+  ]
 }

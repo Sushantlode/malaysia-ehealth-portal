@@ -59,7 +59,7 @@ function HexServiceCard({ hex, index, scrollTargetId, onJumpToMap, onLaunchHmis,
             <div className="hex-service-actions">
               {hex.id === "hmis" && onLaunchHmis ? (
                 <button type="button" className="hex-service-launch-link" onClick={onLaunchHmis}>
-                  Open HMIS login
+                  Open HMIS
                 </button>
               ) : null}
               {isSetuLinkedHex(hex.id) && onLaunchSetu ? (

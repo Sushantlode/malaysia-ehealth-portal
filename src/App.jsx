@@ -59,7 +59,7 @@ export default function App() {
   function selectHex(hex) {
     if (hex.id === "hmis") {
       launchHmis();
-      showMessage("Opening Tata MD HMIS login.");
+      showMessage("Opening Tata MD HMIS (auto sign-in)…");
       return;
     }
     if (isSetuLinkedHex(hex.id)) {
@@ -145,7 +145,7 @@ export default function App() {
             }}
             onLaunchHmis={() => {
               launchHmis();
-              showMessage("Opening Tata MD HMIS login.");
+              showMessage("Opening Tata MD HMIS (auto sign-in)…");
             }}
             onLaunchSetu={(hexId) => {
               launchSetuForHex(hexId);

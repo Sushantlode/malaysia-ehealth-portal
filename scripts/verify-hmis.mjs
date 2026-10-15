@@ -30,9 +30,15 @@ async function main() {
   );
   ok &&= loggedIn;
 
-  const tomcatSso = await fetch("http://15.252.193.15:8080/hims-ui/hmis-sso.html", { method: "GET" });
+  const tomcatSso = await fetch("http://15.252.193.15:8080/hims-ui/malaysia-hmis-sso.html", {
+    method: "GET",
+  });
   console.log(
-    `Tomcat hmis-sso.html: HTTP ${tomcatSso.status} ${tomcatSso.status === 200 ? "OK (full auto-login ready)" : "missing — use portal hmis-sso.html on localhost"}`
+    `Tomcat malaysia-hmis-sso.html: HTTP ${tomcatSso.status} ${
+      tomcatSso.status === 200
+        ? "OK (direct Tomcat SSO)"
+        : "missing — use Vercel proxy /hims-ui/malaysia-hmis-sso.html or deploy via scripts/install-hmis-sso.sh"
+    }`
   );
 
   console.log(ok ? "\nResult: WORKING — HMIS login API and UI are reachable." : "\nResult: FAILED — check network or credentials.");

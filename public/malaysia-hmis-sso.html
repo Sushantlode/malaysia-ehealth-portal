@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Opening HMIS…</title>
+    <style>
+      body {
+        margin: 0;
+        min-height: 100vh;
+        display: grid;
+        place-items: center;
+        font-family: "DM Sans", system-ui, sans-serif;
+        background: #06142e;
+        color: #f8fafc;
+      }
+      .box {
+        max-width: 420px;
+        padding: 24px;
+        text-align: center;
+      }
+      a {
+        color: #ffd100;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="box">
+      <p id="status">Signing in to Tata MD HMIS…</p>
+      <p><a id="manual" href="./#/login">Open login form</a></p>
+    </div>
+    <script>
+      var CREDS = { userName: "Gayatri", password: "Gay@12", orgId: 1, unitId: 1 };
+      var statusEl = document.getElementById("status");
+      var manualEl = document.getElementById("manual");
+
+      var HMIS_HOME_HASH = "#/configuration/homesortcut";
+
+      function hmisAppUrlAfterLogin() {
+        var path = location.pathname || "";
+        var idx = path.indexOf("/hims-ui");
+        if (idx !== -1) {
+          return path.slice(0, idx + "/hims-ui".length) + "/" + HMIS_HOME_HASH;
+        }
+        return "/hims-ui/" + HMIS_HOME_HASH;
+      }
+
+      function persistSession(data) {
+        if (!data.access_token) throw new Error("No access token");
+        localStorage.setItem("access_token", data.access_token);
+        if (data.refresh_token) localStorage.setItem("refresh_token", data.refresh_token);
+        if (data.expires_at != null) localStorage.setItem("access_expires_at", String(data.expires_at));
+        if (data.refresh_expires_at != null) {
+          localStorage.setItem("refresh_expires_at", String(data.refresh_expires_at));
+        }
+        if (data.mstOrg) {
+          localStorage.setItem("orgId", data.mstOrg.orgId);
+          localStorage.setItem("orgName", data.mstOrg.orgName);
+          localStorage.setItem("orgObj", JSON.stringify(data.mstOrg));
+        }
+        if (data.mstUnit) {
+          localStorage.setItem("unitId", data.mstUnit.unitId);
+          localStorage.setItem("unitName", data.mstUnit.unitName);
+          localStorage.setItem("unitObj", JSON.stringify(data.mstUnit));
+        }
+        if (data.user_detail) {
+          localStorage.setItem("staffId", JSON.stringify(data.user_detail.staffId));
+          localStorage.setItem("userdetail", JSON.stringify(data.user_detail));
+        }
+        if (data.user_action) localStorage.setItem("useraction", JSON.stringify(data.user_action));
+        if (data.login_json) localStorage.setItem("login_json", JSON.stringify(data.login_json));
+      }
+
+      function finishWithSession(data) {
+        persistSession(data);
+        statusEl.textContent = "Opening dashboard…";
+        location.replace(hmisAppUrlAfterLogin());
+      }
+
+      var hash = location.hash || "";
+      if (hash.indexOf("#portalSession=") === 0) {
+        try {
+          var encoded = decodeURIComponent(hash.slice("#portalSession=".length));
+          finishWithSession(JSON.parse(atob(encoded)));
+        } catch (e) {
+          console.error(e);
+        }
+      } else {
+      fetch("/TATA_postgres/loginaction/authuserlogin/", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "X-tenantId": String(CREDS.orgId) },
+        body: JSON.stringify(CREDS),
+      })
+        .then(function (res) {
+          return res.json().then(function (body) {
+            return { ok: res.ok, body: body };
+          });
+        })
+        .then(function (result) {
+          var data = result.body;
+          if (!result.ok || !data.login_status) {
+            throw new Error(data.msg || "Login failed");
+          }
+          finishWithSession(data);
+        })
+        .catch(function (err) {
+          statusEl.textContent = "Auto sign-in failed.";
+          manualEl.textContent = "Sign in manually (Gayatri / Gay@12 / CB / TATA MD)";
+          console.error(err);
+        });
+      }
+    </script>
+  </body>
+</html>
