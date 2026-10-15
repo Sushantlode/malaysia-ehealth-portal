@@ -9,6 +9,10 @@
       "destination": "/api/hmis-backend?path=:path*"
     },
     {
+      "source": "/TATA_postgres/:path*/",
+      "destination": "/api/hmis-backend?path=:path*"
+    },
+    {
       "source": "/hims-ui",
       "destination": "/hims-ui/index.html"
     },

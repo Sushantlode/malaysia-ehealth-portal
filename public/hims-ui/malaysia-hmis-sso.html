@@ -91,7 +91,7 @@
             });
           });
         }
-        return fetch("/TATA_postgres/loginaction/authuserlogin/", {
+        return fetch("/TATA_postgres/loginaction/authuserlogin", {
           method: "POST",
           headers: { "Content-Type": "application/json", "X-tenantId": String(CREDS.orgId) },
           body: JSON.stringify(CREDS),
