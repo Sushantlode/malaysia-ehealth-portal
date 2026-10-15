@@ -2,10 +2,12 @@ import { useState } from "react";
 
 const MAGNIFIC_DOCTOR_PAGE = "https://www.magnific.com/photos/malaysian-doctor";
 
+const PM_IMAGE = `${import.meta.env.BASE_URL}assets/pm.jpg`;
+
 const PM_SOURCES = [
-  "/assets/pm.jpg",
+  PM_IMAGE,
   "https://commons.wikimedia.org/wiki/Special:FilePath/Anwar_Ibrahim_2026_%28cropped%29.jpg",
-  "/assets/portrait-placeholder.svg",
+  `${import.meta.env.BASE_URL}assets/portrait-placeholder.svg`,
 ];
 
 const DOCTOR_IMAGE = `${import.meta.env.BASE_URL}assets/doctor-magnific.jpg`;
@@ -30,7 +32,7 @@ export default function PeoplePanel() {
           <img
             className="portrait-leader"
             src={PM_SOURCES[pmSource]}
-            alt="Prime Minister of Malaysia"
+            alt="YAB Prime Minister of Malaysia"
             onError={() => {
               setPmSource((current) => (current < PM_SOURCES.length - 1 ? current + 1 : current));
             }}
