@@ -234,8 +234,8 @@ export const HEXES = [
     c: 3,
     r: 3,
     central: true,
-    name: "Malaysia Portal",
-    lines: ["MALAYSIA", "Portal"],
+    name: "MALAYSIA HIE PORTAL",
+    lines: ["MALAYSIA", "HIE PORTAL"],
   },
   {
     id: "clinics",

@@ -2,10 +2,13 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import AboutPage from "./components/AboutPage";
 import Header from "./components/Header";
 import HexDetailPanel from "./components/HexDetailPanel";
+import HixStakeholderAnalytics from "./components/HixStakeholderAnalytics";
 import HexMap from "./components/HexMap";
 import PeoplePanel from "./components/PeoplePanel";
 import SiteFooter from "./components/SiteFooter";
 import { LANGUAGES } from "./data";
+import { launchSetuLogin, launchSetuPreventiveHealth } from "./externalLinks";
+import { launchHmis } from "./hmisLaunch";
 
 export default function App() {
   const [view, setView] = useState("home");
@@ -54,12 +57,22 @@ export default function App() {
   }
 
   function selectHex(hex) {
+    if (hex.id === "hmis") {
+      launchHmis();
+      showMessage("Opening Tata MD HMIS login.");
+      return;
+    }
+    if (hex.id === "checkups") {
+      launchSetuPreventiveHealth();
+      showMessage("Opening Preventive Health on SETU — if asked, mobile 9999999999, OTP 000000 (copied).");
+      return;
+    }
     const onHome = view === "home";
     if (!onHome) {
       setView("home");
     }
     setScrollTargetHexId(hex.id);
-    showMessage(hex.central ? "Malaysia Portal — national HIX overview" : hex.name);
+    showMessage(hex.central ? "MALAYSIA HIE PORTAL — national HIX overview" : hex.name);
     window.clearTimeout(detailScrollTimer.current);
     detailScrollTimer.current = window.setTimeout(() => {
       document.getElementById(`hex-detail-${hex.id}`)?.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -107,9 +120,8 @@ export default function App() {
           );
         }}
         onLogin={() => {
-          showMessage(
-            "Login and registration are demonstration-only. Connect an approved authentication service before use."
-          );
+          launchSetuLogin();
+          showMessage("Opening SETU login — mobile 9999999999, OTP 000000 (copied).");
         }}
       />
 
@@ -125,10 +137,19 @@ export default function App() {
               </div>
             </div>
           </div>
+          <HixStakeholderAnalytics />
           <HexDetailPanel
             scrollTargetId={scrollTargetHexId}
             onJumpToMap={() => {
               window.scrollTo({ top: 0, behavior: "smooth" });
+            }}
+            onLaunchHmis={() => {
+              launchHmis();
+              showMessage("Opening Tata MD HMIS login.");
+            }}
+            onLaunchPreventiveHealth={() => {
+              launchSetuPreventiveHealth();
+              showMessage("Opening Preventive Health on SETU — if asked, mobile 9999999999, OTP 000000 (copied).");
             }}
           />
         </>
@@ -136,16 +157,7 @@ export default function App() {
         <AboutPage />
       )}
 
-      <SiteFooter
-        onHome={goHome}
-        onAbout={goAbout}
-        onProgrammes={() => {
-          goHome();
-          window.setTimeout(() => {
-            document.getElementById("hex-service-detail")?.scrollIntoView({ behavior: "smooth", block: "start" });
-          }, view === "home" ? 80 : 360);
-        }}
-      />
+      <SiteFooter onHome={goHome} onAbout={goAbout} />
 
       <button
         className={showTop ? "to-top show" : "to-top"}

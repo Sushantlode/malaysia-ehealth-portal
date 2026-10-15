@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Signing in to SETU…</title>
+    <style>
+      body {
+        margin: 0;
+        min-height: 100vh;
+        display: grid;
+        place-items: center;
+        font-family: "DM Sans", system-ui, sans-serif;
+        background: #3f4a54;
+        color: #f8fafc;
+        padding: 24px;
+      }
+      .box {
+        max-width: 420px;
+        text-align: center;
+        line-height: 1.5;
+      }
+      a {
+        color: #ffd100;
+      }
+      .err {
+        color: #fca5a5;
+        font-size: 14px;
+        margin-top: 12px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="box">
+      <p id="status">Signing in to SETU with demo account…</p>
+      <p class="err" id="error" hidden></p>
+      <p><a id="manual" href="https://setuai.com/login">Open SETU login</a></p>
+    </div>
+    <script>
+      const DEMO = { mobile: "9999999999", otp: "000000" };
+      const SETU_ORIGIN = "https://setuai.com";
+      const params = new URLSearchParams(location.search);
+      const nextPath = params.get("next") || "/app";
+
+      const onSetuHost = /(^|\.)setuai\.com$/i.test(location.hostname);
+      const devProxy = location.port === "5173" || location.port === "4173";
+      const authBase = onSetuHost ? "/auth" : devProxy ? "/setu-auth" : null;
+
+      const statusEl = document.getElementById("status");
+      const errorEl = document.getElementById("error");
+      const manualEl = document.getElementById("manual");
+
+      /** Must match SETU app (see setu_auth_session check on setuai.com). */
+      function apiHostKey() {
+        var staging = "https://staging.setuai.com".replace(/\/+$/, "");
+        return staging + "|" + staging;
+      }
+
+      function buildSession(payload) {
+        var d = payload.data || payload;
+        return {
+          accountType: "user",
+          token: d.token || "",
+          refreshToken: d.refreshToken || "",
+          user_id: d.user_id != null ? String(d.user_id) : "",
+          uhid: d.uhid ? String(d.uhid) : "",
+          username: d.username ? String(d.username) : "",
+          first_name: d.first_name || "",
+          name: d.name || d.first_name || "",
+          mobile: d.mobile ? String(d.mobile) : DEMO.mobile,
+          email: d.email || "",
+          vle_id: "",
+          vlePublicId: "",
+          admin_id: "",
+          coordinatorId: "",
+          userId: "",
+          employeeCode: "",
+          assignedDistricts: [],
+          assignedDistrictDetails: [],
+          roles: [],
+          scope: "",
+          allowedModules: [],
+          moduleKeys: [],
+          isSuperAdmin: false,
+          isMasterAdmin: false,
+        };
+      }
+
+      function redirectNext() {
+        if (onSetuHost) {
+          var path = nextPath.charAt(0) === "/" ? nextPath : "/" + nextPath;
+          location.replace(path);
+          return;
+        }
+        location.replace(SETU_ORIGIN + (nextPath.charAt(0) === "/" ? nextPath : "/" + nextPath));
+      }
+
+      function openManualLogin() {
+        manualEl.href = SETU_ORIGIN + "/login";
+        errorEl.hidden = false;
+        errorEl.textContent =
+          "Use mobile " + DEMO.mobile + " and OTP " + DEMO.otp + " on the login screen.";
+        statusEl.textContent = "Could not complete auto sign-in.";
+      }
+
+      async function signIn() {
+        if (!authBase) {
+          location.replace(SETU_ORIGIN + (nextPath.charAt(0) === "/" ? nextPath : "/" + nextPath));
+          return;
+        }
+
+        var res = await fetch(authBase + "/loginWithSmartpingOtp", {
+          method: "POST",
+          headers: { "Content-Type": "application/json", Accept: "application/json" },
+          body: JSON.stringify({ mobile: DEMO.mobile, otp: DEMO.otp }),
+        });
+        var body = await res.json().catch(function () {
+          return {};
+        });
+        var inner = body.data || body;
+        var failed = !res.ok || body.success === false || inner.hasError === true;
+        if (failed || !inner.token) {
+          openManualLogin();
+          return;
+        }
+
+        if (devProxy && !onSetuHost) {
+          statusEl.textContent = "Opening SETU (sign in if needed)…";
+          location.replace(SETU_ORIGIN + nextPath);
+          return;
+        }
+
+        if (onSetuHost) {
+          localStorage.setItem("setu_api_host", apiHostKey());
+          localStorage.setItem("setu_auth_session", JSON.stringify(buildSession(body)));
+        }
+
+        statusEl.textContent = "Opening SETU…";
+        redirectNext();
+      }
+
+      signIn().catch(function () {
+        openManualLogin();
+      });
+    </script>
+  </body>
+</html>

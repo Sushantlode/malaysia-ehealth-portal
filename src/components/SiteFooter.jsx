@@ -1,4 +1,4 @@
-export default function SiteFooter({ onHome, onAbout, onProgrammes }) {
+export default function SiteFooter({ onHome, onAbout }) {
   const year = new Date().getFullYear();
 
   function navButton(label, action) {
@@ -20,7 +20,7 @@ export default function SiteFooter({ onHome, onAbout, onProgrammes }) {
             </span>
             <p className="site-footer-lead">Malaysia eHealth System Portal</p>
             <p className="site-footer-copy">
-              Demo entry point for HIX programmes — citizens, providers, and SETU eHealth (not an official MOH site).
+              Demo entry point for HIX programmes — citizens, providers, and eHealth Healthcare ltd (not an official MOH site).
             </p>
           </div>
 
@@ -28,8 +28,7 @@ export default function SiteFooter({ onHome, onAbout, onProgrammes }) {
             <h3 className="site-footer-heading">Portal</h3>
             <ul className="site-footer-list">
               <li>{navButton("Home", onHome)}</li>
-              <li>{navButton("About SETU", onAbout)}</li>
-              <li>{navButton("Programmes", onProgrammes)}</li>
+              <li>{navButton("About", onAbout)}</li>
             </ul>
           </div>
 
@@ -43,7 +42,7 @@ export default function SiteFooter({ onHome, onAbout, onProgrammes }) {
               </li>
               <li>
                 <a href="https://setuai.com" target="_blank" rel="noopener noreferrer">
-                  SETU eHealth
+                  eHealth Healthcare ltd
                 </a>
               </li>
             </ul>

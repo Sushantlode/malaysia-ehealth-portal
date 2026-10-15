@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Opening HMIS…</title>
+    <style>
+      body {
+        margin: 0;
+        min-height: 100vh;
+        display: grid;
+        place-items: center;
+        font-family: "DM Sans", system-ui, sans-serif;
+        background: #06142e;
+        color: #f8fafc;
+      }
+      .box {
+        max-width: 440px;
+        padding: 28px 32px;
+        border-radius: 16px;
+        background: rgba(255, 255, 255, 0.06);
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        text-align: center;
+      }
+      .box a {
+        color: #ffd100;
+      }
+      .err {
+        color: #fca5a5;
+        font-size: 14px;
+        margin-top: 12px;
+        line-height: 1.45;
+      }
+      .hint {
+        font-size: 13px;
+        color: #cbd5e1;
+        margin-top: 10px;
+        line-height: 1.5;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="box">
+      <p id="status">Signing in to Tata MD HMIS…</p>
+      <p class="hint" id="hint" hidden></p>
+      <p class="err" id="error" hidden></p>
+      <p><a id="manual" href="http://15.252.193.15:8080/hims-ui/#/login">Open HMIS login</a></p>
+    </div>
+    <script>
+      const HMIS_ORIGIN = "http://15.252.193.15:8080";
+      const UI_HOME = HMIS_ORIGIN + "/hims-ui/";
+      const onHmisHost = location.origin === HMIS_ORIGIN;
+      const useDevProxy = location.port === "5173" || location.port === "4173";
+      const API = onHmisHost
+        ? HMIS_ORIGIN + "/TATA_postgres/"
+        : useDevProxy
+          ? "/TATA_postgres/"
+          : null;
+
+      const CREDS = {
+        userName: "Gayatri",
+        password: "Gay@12",
+        orgId: 1,
+        unitId: 1,
+        orgName: "CB",
+        unitName: "TATA MD",
+      };
+
+      const statusEl = document.getElementById("status");
+      const hintEl = document.getElementById("hint");
+      const errorEl = document.getElementById("error");
+      const manualEl = document.getElementById("manual");
+
+      function fail(message, hint) {
+        statusEl.textContent = "Could not complete auto sign-in.";
+        errorEl.hidden = false;
+        errorEl.textContent = message;
+        if (hint) {
+          hintEl.hidden = false;
+          hintEl.textContent = hint;
+        }
+        manualEl.hidden = false;
+      }
+
+      function saveTokens(payload) {
+        if (!payload.access_token) throw new Error("No access token in response.");
+        localStorage.setItem("access_token", payload.access_token);
+        if (payload.refresh_token) localStorage.setItem("refresh_token", payload.refresh_token);
+        if (payload.expires_at != null) localStorage.setItem("access_expires_at", String(payload.expires_at));
+        if (payload.refresh_expires_at != null) {
+          localStorage.setItem("refresh_expires_at", String(payload.refresh_expires_at));
+        }
+      }
+
+      function saveProfile(payload) {
+        if (payload.mstOrg) {
+          localStorage.setItem("orgId", payload.mstOrg.orgId);
+          localStorage.setItem("orgName", payload.mstOrg.orgName);
+          localStorage.setItem("orgObj", JSON.stringify(payload.mstOrg));
+        }
+        if (payload.mstUnit) {
+          localStorage.setItem("unitId", payload.mstUnit.unitId);
+          localStorage.setItem("unitName", payload.mstUnit.unitName);
+          localStorage.setItem("unitObj", JSON.stringify(payload.mstUnit));
+        }
+        if (payload.user_detail) {
+          localStorage.setItem("staffId", JSON.stringify(payload.user_detail.staffId));
+        }
+        if (payload.user_action) {
+          localStorage.setItem("useraction", JSON.stringify(payload.user_action));
+        }
+        if (payload.login_json) {
+          localStorage.setItem("login_json", JSON.stringify(payload.login_json));
+        }
+      }
+
+      function dashboardHash(payload) {
+        const role =
+          payload.user_detail && payload.user_detail.staffRole && payload.user_detail.staffRole.roleName;
+        if (role === "Doctor") return "#/opd/patient-waiting-room";
+        if (role === "Pathologist") return "#/investigation/pathology/laborderlist";
+        return "#/configuration/homesortcut";
+      }
+
+      function autofillUrl() {
+        return UI_HOME + "hmis-autofill.html";
+      }
+
+      function openLoginWithHint() {
+        const url = autofillUrl();
+        manualEl.href = url;
+        hintEl.hidden = false;
+        hintEl.textContent = "Opening login with credentials filled (Gayatri / CB / TATA MD).";
+        window.location.replace(url);
+      }
+
+      async function login() {
+        const body = {
+          userName: CREDS.userName,
+          password: CREDS.password,
+          orgId: CREDS.orgId,
+          unitId: CREDS.unitId,
+        };
+        const res = await fetch(API + "loginaction/authuserlogin/", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "X-tenantId": String(CREDS.orgId),
+          },
+          body: JSON.stringify(body),
+        });
+        const data = await res.json().catch(function () {
+          return {};
+        });
+        if (!res.ok) {
+          const msg = data.msg || "Login HTTP " + res.status;
+          throw new Error(msg);
+        }
+        if (!data.login_status) throw new Error(data.msg || "Invalid username or password.");
+        return data;
+      }
+
+      if (!API) {
+        statusEl.textContent = "Opening HMIS login…";
+        openLoginWithHint();
+      } else {
+        login()
+          .then(function (data) {
+            if (onHmisHost) {
+              saveTokens(data);
+              saveProfile(data);
+              statusEl.textContent = "Opening HMIS dashboard…";
+              window.location.replace(UI_HOME + dashboardHash(data));
+              return;
+            }
+            statusEl.textContent = "Account verified. Opening HMIS login…";
+            openLoginWithHint();
+          })
+          .catch(function () {
+            statusEl.textContent = "Opening HMIS login…";
+            openLoginWithHint();
+          });
+      }
+    </script>
+  </body>
+</html>

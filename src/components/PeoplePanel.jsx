@@ -10,9 +10,14 @@ const PM_SOURCES = [
 
 const DOCTOR_IMAGE = `${import.meta.env.BASE_URL}assets/doctor-magnific.jpg`;
 
-const BPO_IMAGE = `${import.meta.env.BASE_URL}assets/bpo-malaysia-youth.jpg`;
+const CCAM_HOME = "https://ccam.org.my/";
+const BPO_IMAGE = `${import.meta.env.BASE_URL}assets/bpo-call-center.jpg`;
 
-const BPO_SOURCES = [BPO_IMAGE, `${import.meta.env.BASE_URL}assets/portrait-placeholder.svg`];
+const BPO_SOURCES = [
+  BPO_IMAGE,
+  `${import.meta.env.BASE_URL}assets/bpo-malaysia-youth.jpg`,
+  `${import.meta.env.BASE_URL}assets/portrait-placeholder.svg`,
+];
 
 export default function PeoplePanel() {
   const [pmSource, setPmSource] = useState(0);
@@ -57,12 +62,12 @@ export default function PeoplePanel() {
           eVideo Clinic
         </span>
       </a>
-      <article className="person-card tone-blue">
+      <a className="person-card tone-blue" href={CCAM_HOME} target="_blank" rel="noopener noreferrer">
         <div className="person-photo-wrap">
           <img
             className="portrait-bpo"
             src={BPO_SOURCES[bpoSource]}
-            alt="Malaysian youth — 24x7 health support and skill mapping"
+            alt="Call center operator — Contact Centre Association of Malaysia (CCAM)"
             onError={() => {
               setBpoSource((current) => (current < BPO_SOURCES.length - 1 ? current + 1 : current));
             }}
@@ -74,7 +79,7 @@ export default function PeoplePanel() {
           <br />
           &amp; Skill Mapping
         </span>
-      </article>
+      </a>
     </aside>
   );
 }

@@ -1,4 +1,4 @@
-/** Per–hexagon copy and imagery for Malaysia eHealth / SETU on the HIX. */
+/** Per–hexagon copy and imagery for Malaysia eHealth / eHealth Healthcare ltd on the HIX. */
 
 function detail(title, tagline, overview, bullets, imageAlt) {
   return { title, tagline, overview, bullets, imageAlt };
@@ -10,7 +10,7 @@ export const HEX_DETAIL_BY_ID = {
   "blood-banks": detail(
     "Blood Banks, Cord Blood Bank and R&D Centre",
     "National visibility for life-saving supply",
-    "Malaysia needs real-time matching of blood and cord-blood inventory with patient needs across states and private banks. SETU eHealth registers donors, units, and cold-chain handoffs on the HIX so hospitals avoid delays and research centres access de-identified datasets safely.",
+    "Malaysia needs real-time matching of blood and cord-blood inventory with patient needs across states and private banks. eHealth Healthcare ltd registers donors, units, and cold-chain handoffs on the HIX so hospitals avoid delays and research centres access de-identified datasets safely.",
     [
       "Live inventory and cross-match requests between MOH, university hospitals, and private blood centres.",
       "Cord-blood registry linked to maternity and PHR records with parent consent.",
@@ -20,7 +20,7 @@ export const HEX_DETAIL_BY_ID = {
   "organ-donor": detail(
     "Organ Donor & Recipient Programme",
     "Coordinated transplant pathways",
-    "Organ donation spans registries, hospitals, and follow-up care. SETU eHealth connects donor pledges, recipient waitlists, and transplant centre workflows through the HIX so matching, notifications, and post-transplant monitoring stay aligned nationwide.",
+    "Organ donation spans registries, hospitals, and follow-up care. eHealth Healthcare ltd connects donor pledges, recipient waitlists, and transplant centre workflows through the HIX so matching, notifications, and post-transplant monitoring stay aligned nationwide.",
     [
       "Single national donor intent record tied to MyKad-verified identity.",
       "Secure exchange of compatibility and allocation data between transplant networks.",
@@ -30,7 +30,7 @@ export const HEX_DETAIL_BY_ID = {
   "medical-stores": detail(
     "Medical Stores & Ambulances",
     "Pharmacy and emergency logistics on one network",
-    "Essential medicines and ambulance dispatch must be findable in minutes. SETU eHealth maps licensed pharmacies, medical stores, and ambulance fleets to the HIX so clinicians, insurers, and command centres see availability, stock alerts, and ETA for emergency response.",
+    "Essential medicines and ambulance dispatch must be findable in minutes. eHealth Healthcare ltd maps licensed pharmacies, medical stores, and ambulance fleets to the HIX so clinicians, insurers, and command centres see availability, stock alerts, and ETA for emergency response.",
     [
       "Geo-indexed pharmacy and store stock for chronic and acute prescriptions.",
       "Ambulance status, routing, and handover notes to receiving hospitals via HMIS.",
@@ -40,7 +40,7 @@ export const HEX_DETAIL_BY_ID = {
   insurance: detail(
     "Integration with Insurance",
     "Cashless, rules-based coverage at point of care",
-    "Malaysia’s mixed public–private financing works best when eligibility and claims flow digitally. SETU eHealth plugs takaful and health insurers into the HIX for real-time authorization, package pricing, and discharge summaries — reducing fraud and patient out-of-pocket friction.",
+    "Malaysia’s mixed public–private financing works best when eligibility and claims flow digitally. eHealth Healthcare ltd plugs takaful and health insurers into the HIX for real-time authorization, package pricing, and discharge summaries — reducing fraud and patient out-of-pocket friction.",
     [
       "Policy lookup and pre-authorization at registration using standard HIX identifiers.",
       "Automated claim payloads from HMIS encounters and lab/diagnostic results.",
@@ -50,7 +50,7 @@ export const HEX_DETAIL_BY_ID = {
   communication: detail(
     "Free Communication Channel",
     "Trusted outreach for every household",
-    "Preventive programmes fail when reminders never reach the patient. SETU eHealth provides MOH-approved SMS, app, and IVR channels tied to PHR and programme enrolment — all logged on the HIX for compliance and multilingual delivery by state.",
+    "Preventive programmes fail when reminders never reach the patient. eHealth Healthcare ltd provides MOH-approved SMS, app, and IVR channels tied to PHR and programme enrolment — all logged on the HIX for compliance and multilingual delivery by state.",
     [
       "Appointment, screening, and medication reminders in Bahasa Melayu, English, and other national languages.",
       "Two-way triage chatbot escalation to 24×7 BPO nurses with context from the HIX.",
@@ -60,7 +60,7 @@ export const HEX_DETAIL_BY_ID = {
   checkups: detail(
     "Preventive Health Check-ups",
     "Screen early, act statewide",
-    "SETU’s preventive health modules — camps, home collection, and package booking — feed structured results into the HIX so MOH and insurers see population trends and individuals receive follow-up in their PHR.",
+    "eHealth Healthcare ltd’s preventive health modules — camps, home collection, and package booking — feed structured results into the HIX so MOH and insurers see population trends and individuals receive follow-up in their PHR.",
     [
       "Book doorstep or centre check-ups with digital reports attached to the citizen record.",
       "Risk flags and referral queues for primary care and specialists.",
@@ -70,7 +70,7 @@ export const HEX_DETAIL_BY_ID = {
   specialists: detail(
     "Specialist Doctors & Clinics",
     "Referral-grade care beyond the capital",
-    "Specialist capacity is uneven across states. SETU eHealth lists credentialed specialists and clinics on the HIX, supports e-referrals from primary care, and shares imaging and lab context so second opinions do not restart from zero.",
+    "Specialist capacity is uneven across states. eHealth Healthcare ltd lists credentialed specialists and clinics on the HIX, supports e-referrals from primary care, and shares imaging and lab context so second opinions do not restart from zero.",
     [
       "Searchable specialist directory with wait times and telemedicine slots.",
       "Interoperable referral letters and shared diagnostic artefacts.",
@@ -80,7 +80,7 @@ export const HEX_DETAIL_BY_ID = {
   dashboard: detail(
     "Dashboard and Command Centre",
     "One operational picture for Malaysia",
-    "Command centres need live situational awareness — beds, outbreaks, supply, and programme KPIs. SETU eHealth aggregates HIX feeds into MOH and state dashboards with role-based views for ministers, DHOs, and hospital CEOs.",
+    "Command centres need live situational awareness — beds, outbreaks, supply, and programme KPIs. eHealth Healthcare ltd aggregates HIX feeds into MOH and state dashboards with role-based views for ministers, DHOs, and hospital CEOs.",
     [
       "Real-time bed, ICU, and ambulance capacity by facility.",
       "Programme dashboards for maternal health, NCDs, and scheme uptake.",
@@ -90,7 +90,7 @@ export const HEX_DETAIL_BY_ID = {
   ngos: detail(
     "NGOs & Charitable Trusts",
     "Community partners on the same rails",
-    "NGOs deliver outreach, charity care, and disaster response. SETU eHealth gives vetted partners limited HIX roles to register beneficiaries, schedule camps, and report outcomes while MOH retains governance and audit.",
+    "NGOs deliver outreach, charity care, and disaster response. eHealth Healthcare ltd gives vetted partners limited HIX roles to register beneficiaries, schedule camps, and report outcomes while MOH retains governance and audit.",
     [
       "Partner onboarding with scoped access to enrolment and camp modules.",
       "Donor-funded care tracked against utilisation and outcomes.",
@@ -100,7 +100,7 @@ export const HEX_DETAIL_BY_ID = {
   phr: detail(
     "PHR to Citizens & Residents",
     "Your health story, under your control",
-    "A national portal is only as strong as the citizen record. SETU eHealth PHR (aligned with digital health ID concepts) lets Malaysians view visits, labs, immunisations, and schemes — sharing with providers through consent on the HIX.",
+    "A national portal is only as strong as the citizen record. eHealth Healthcare ltd PHR (aligned with digital health ID concepts) lets Malaysians view visits, labs, immunisations, and schemes — sharing with providers through consent on the HIX.",
     [
       "Unified timeline from public and private providers that publish to the HIX.",
       "Consent-based sharing for travel, insurance, and second opinions.",
@@ -108,9 +108,9 @@ export const HEX_DETAIL_BY_ID = {
     ]
   ),
   portal: detail(
-    "MALAYSIA Portal",
+    "MALAYSIA HIE PORTAL",
     "Front door to an interoperable national HIX",
-    "The Malaysia eHealth portal is the citizen and provider entry point to SETU eHealth — connecting clinics, hospitals, labs, insurers, NGOs, and programmes on one Health Information Exchange. One login surfaces services by state, language, and role while MOH governs standards, privacy, and uptime.",
+    "The Malaysia HIE portal is the citizen and provider entry point to eHealth Healthcare ltd — connecting clinics, hospitals, labs, insurers, NGOs, and programmes on one Health Information Exchange. One login surfaces services by state, language, and role while MOH governs standards, privacy, and uptime.",
     [
       "Single sign-on to telemedicine, PHR, schemes, diagnostics, and command views.",
       "State and district context from the navbar flows into every service request.",
@@ -120,7 +120,7 @@ export const HEX_DETAIL_BY_ID = {
   clinics: detail(
     "Clinic In Every Town & e-Video Clinic in Every Village",
     "Primary care and virtual reach",
-    "Town clinics anchor daily care; e-video extends specialists to rural villages. SETU eHealth registers every clinic on the HIX, powers e-consult workflows, and syncs prescriptions and referrals to HMIS and pharmacies.",
+    "Town clinics anchor daily care; e-video extends specialists to rural villages. eHealth Healthcare ltd registers every clinic on the HIX, powers e-consult workflows, and syncs prescriptions and referrals to HMIS and pharmacies.",
     [
       "Clinic locator with services, hours, and telehealth readiness.",
       "e-Video visits with documentation auto-filed to the patient PHR.",
@@ -140,7 +140,7 @@ export const HEX_DETAIL_BY_ID = {
   tracking: detail(
     "Mother, Child & Adolescent Female Tracking System",
     "Continuity from pregnancy to adulthood",
-    "Maternal and child health spans antenatal visits, immunisation, and adolescent services. SETU eHealth tracks milestones on the HIX, triggers reminders, and links to federal schemes when eligibility matches.",
+    "Maternal and child health spans antenatal visits, immunisation, and adolescent services. eHealth Healthcare ltd tracks milestones on the HIX, triggers reminders, and links to federal schemes when eligibility matches.",
     [
       "Pregnancy risk stratification with referral to higher-level facilities.",
       "Immunisation and growth records in the child PHR.",
@@ -150,7 +150,7 @@ export const HEX_DETAIL_BY_ID = {
   schemes: detail(
     "Federal Government Schemes",
     "Benefits discovered and redeemed digitally",
-    "Hundreds of health and welfare schemes fail when citizens cannot find them. SETU eHealth maps federal programmes to HIX eligibility rules and surfaces entitlements in the app and portal at point of care.",
+    "Hundreds of health and welfare schemes fail when citizens cannot find them. eHealth Healthcare ltd maps federal programmes to HIX eligibility rules and surfaces entitlements in the app and portal at point of care.",
     [
       "Scheme finder by residence, income band, and clinical context.",
       "Enrolment and utilisation reporting for MOH and implementing agencies.",
@@ -160,7 +160,7 @@ export const HEX_DETAIL_BY_ID = {
   employment: detail(
     "Additional Local Employment",
     "Health economy jobs in every district",
-    "Digital health scale creates local roles — community health workers, lab phlebotomists, BPO agents, and data stewards. SETU eHealth ties skill-set mapping and training completion to HIX workforce registries MOH and states can plan against.",
+    "Digital health scale creates local roles — community health workers, lab phlebotomists, BPO agents, and data stewards. eHealth Healthcare ltd ties skill-set mapping and training completion to HIX workforce registries MOH and states can plan against.",
     [
       "District job boards linked to census and facility demand signals.",
       "Certification tracking for lay counsellors and telehealth facilitators.",
@@ -170,7 +170,7 @@ export const HEX_DETAIL_BY_ID = {
   pathology: detail(
     "Pathology Labs",
     "Results that follow the patient",
-    "Labs must publish structured results once, consumed everywhere. SETU eHealth connects pathology networks to the HIX with standard codes, turnaround metrics, and home-collection scheduling from the Book Tests module.",
+    "Labs must publish structured results once, consumed everywhere. eHealth Healthcare ltd connects pathology networks to the HIX with standard codes, turnaround metrics, and home-collection scheduling from the Book Tests module.",
     [
       "Digital lab reports attached to PHR and referring clinician inbox.",
       "Network-wide QC and volume dashboards for MOH licensing.",
@@ -180,7 +180,7 @@ export const HEX_DETAIL_BY_ID = {
   diagnostics: detail(
     "Diagnostic Centres",
     "Imaging and advanced diagnostics interoperably",
-    "Diagnostic centres generate large files and reports that often stay trapped. SETU eHealth routes orders from HMIS and telemedicine, stores report metadata on the HIX, and links imaging viewers for authorised providers.",
+    "Diagnostic centres generate large files and reports that often stay trapped. eHealth Healthcare ltd routes orders from HMIS and telemedicine, stores report metadata on the HIX, and links imaging viewers for authorised providers.",
     [
       "E-referrals with clinical indication and insurance pre-auth.",
       "Report and key image pointers available to specialists nationwide.",
@@ -190,7 +190,7 @@ export const HEX_DETAIL_BY_ID = {
   census: detail(
     "Census, Skill-Set Mapping, 24×7 BPO and KPO",
     "Population intelligence and always-on support",
-    "National health planning needs people and skills data, not just facilities. SETU eHealth combines community census, workforce skills, and 24×7 BPO health desks — every interaction optionally enriching authorised HIX programme views.",
+    "National health planning needs people and skills data, not just facilities. eHealth Healthcare ltd combines community census, workforce skills, and 24×7 BPO health desks — every interaction optionally enriching authorised HIX programme views.",
     [
       "Household health surveys feeding district prevalence estimates.",
       "BPO triage with escalation to clinicians and ambulance when needed.",
@@ -200,7 +200,7 @@ export const HEX_DETAIL_BY_ID = {
   tourism: detail(
     "Enhancing Medical Tourism",
     "Trusted care for visitors and export revenue",
-    "Medical tourists need transparent packages, quality credentials, and portable records. SETU eHealth publishes accredited centres on the HIX, supports international patient journeys, and integrates insurance and discharge summaries for continuity after travel.",
+    "Medical tourists need transparent packages, quality credentials, and portable records. eHealth Healthcare ltd publishes accredited centres on the HIX, supports international patient journeys, and integrates insurance and discharge summaries for continuity after travel.",
     [
       "Accredited hospital and specialist packages with indicative pricing.",
       "Visitor PHR and consent for foreign payer and embassy requirements.",
@@ -210,7 +210,7 @@ export const HEX_DETAIL_BY_ID = {
   informatics: detail(
     "Health Informatics Network Value Chain",
     "From data to decisions at scale",
-    "The value chain closes when data becomes insight — research, policy, and payment reform. SETU eHealth’s analytics layer sits on the HIX with governance, de-identification, and AI-assisted risk scoring for population health.",
+    "The value chain closes when data becomes insight — research, policy, and payment reform. eHealth Healthcare ltd’s analytics layer sits on the HIX with governance, de-identification, and AI-assisted risk scoring for population health.",
     [
       "Longitudinal datasets for NCD, infectious disease, and scheme effectiveness studies.",
       "Predictive models flagging at-risk cohorts for proactive outreach.",

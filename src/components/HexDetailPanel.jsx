@@ -2,10 +2,9 @@ import { useEffect, useRef, useState } from "react";
 import { HEXES } from "../data";
 import { getHexDetail } from "../hexDetailContent";
 
-function HexServiceRow({ hex, index, scrollTargetId, onJumpToMap }) {
+function HexServiceCard({ hex, index, scrollTargetId, onJumpToMap, onLaunchHmis, onLaunchPreventiveHealth }) {
   const detail = getHexDetail(hex.id);
   const rowRef = useRef(null);
-  const [open, setOpen] = useState(true);
   const [inView, setInView] = useState(false);
   const [pulse, setPulse] = useState(false);
 
@@ -16,7 +15,7 @@ function HexServiceRow({ hex, index, scrollTargetId, onJumpToMap }) {
       ([entry]) => {
         if (entry.isIntersecting) setInView(true);
       },
-      { rootMargin: "0px 0px -4% 0px", threshold: 0.08 }
+      { rootMargin: "0px 0px -4% 0px", threshold: 0.06 }
     );
     observer.observe(node);
     return () => observer.disconnect();
@@ -31,55 +30,45 @@ function HexServiceRow({ hex, index, scrollTargetId, onJumpToMap }) {
 
   if (!detail) return null;
 
-  const slideClass = index % 2 === 0 ? "is-slide-left" : "is-slide-right";
-
   return (
     <li style={{ "--i": index }}>
       <article
         ref={rowRef}
         id={`hex-detail-${hex.id}`}
-        className={[
-          "hex-service-item",
-          slideClass,
-          inView ? "is-inview" : "",
-          pulse ? "is-pulse" : "",
-          open ? "is-open" : "",
-        ]
-          .filter(Boolean)
-          .join(" ")}
+        className={["hex-service-item", inView ? "is-inview" : "", pulse ? "is-pulse" : ""].filter(Boolean).join(" ")}
       >
-        <div className="hex-service-layout">
-          <figure className="hex-service-media">
-            <img className="hex-service-thumb" src={detail.image} alt="" loading="lazy" />
-          </figure>
-          <div className="hex-service-main">
-            <button
-              type="button"
-              className="hex-service-toggle"
-              aria-expanded={open}
-              onClick={() => setOpen((value) => !value)}
-            >
-              <span className="hex-service-head">
-                <span className="hex-service-index" aria-hidden="true">
-                  {String(index + 1).padStart(2, "0")}
-                </span>
-                <strong>{detail.title}</strong>
-                {detail.tagline ? <em>{detail.tagline}</em> : null}
-              </span>
-              <span className="hex-service-chevron" aria-hidden="true" />
-            </button>
-            <div className="hex-service-body">
-              <div className="hex-service-body-inner">
-                <p>{detail.overview}</p>
-                <ul>
-                  {detail.bullets.map((item) => (
-                    <li key={item}>{item}</li>
-                  ))}
-                </ul>
-                <button type="button" className="hex-service-map-link" onClick={() => onJumpToMap(hex.id)}>
-                  Back to map
+        <figure className="hex-service-media">
+          <img className="hex-service-thumb" src={detail.image} alt="" loading="lazy" />
+        </figure>
+        <div className="hex-service-main">
+          <header className="hex-service-head">
+            <span className="hex-service-index" aria-hidden="true">
+              {String(index + 1).padStart(2, "0")}
+            </span>
+            <strong>{detail.title}</strong>
+            {detail.tagline ? <em>{detail.tagline}</em> : null}
+          </header>
+          <div className="hex-service-body">
+            <p>{detail.overview}</p>
+            <ul>
+              {detail.bullets.map((item) => (
+                <li key={item}>{item}</li>
+              ))}
+            </ul>
+            <div className="hex-service-actions">
+              {hex.id === "hmis" && onLaunchHmis ? (
+                <button type="button" className="hex-service-launch-link" onClick={onLaunchHmis}>
+                  Open HMIS login
                 </button>
-              </div>
+              ) : null}
+              {hex.id === "checkups" && onLaunchPreventiveHealth ? (
+                <button type="button" className="hex-service-launch-link" onClick={onLaunchPreventiveHealth}>
+                  Open Preventive Health
+                </button>
+              ) : null}
+              <button type="button" className="hex-service-map-link" onClick={() => onJumpToMap(hex.id)}>
+                Back to map
+              </button>
             </div>
           </div>
         </div>
@@ -88,27 +77,29 @@ function HexServiceRow({ hex, index, scrollTargetId, onJumpToMap }) {
   );
 }
 
-export default function HexDetailPanel({ scrollTargetId, onJumpToMap }) {
+export default function HexDetailPanel({ scrollTargetId, onJumpToMap, onLaunchHmis, onLaunchPreventiveHealth }) {
   return (
     <section className="hex-services setu-block" id="hex-service-detail" aria-labelledby="hex-services-heading">
       <div className="setu-wrap hex-services-intro">
         <p className="eyebrow anim-fade-up">Malaysia eHealth programmes</p>
         <h2 id="hex-services-heading" className="anim-fade-up">
-          SETU eHealth on the national HIX
+          eHealth Healthcare ltd on the national HIX
         </h2>
         <p className="dek anim-fade-up">
-          Every service listed below — tap a row to fold details, or pick a hexagon on the map to jump here.
+          All programmes below — three per row. Select a hexagon on the map to jump to its card.
         </p>
       </div>
       <div className="setu-wrap">
-        <ol className="hex-services-list">
+        <ol className="hex-services-grid">
           {HEXES.map((hex, index) => (
-            <HexServiceRow
+            <HexServiceCard
               key={hex.id}
               hex={hex}
               index={index}
               scrollTargetId={scrollTargetId}
               onJumpToMap={onJumpToMap}
+              onLaunchHmis={onLaunchHmis}
+              onLaunchPreventiveHealth={onLaunchPreventiveHealth}
             />
           ))}
         </ol>
