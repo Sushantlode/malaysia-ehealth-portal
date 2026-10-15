@@ -10,11 +10,9 @@ const PM_SOURCES = [
 
 const DOCTOR_IMAGE = `${import.meta.env.BASE_URL}assets/doctor-magnific.jpg`;
 
-const BPO_SOURCES = [
-  "/assets/bpo-center.jpg",
-  "https://images.unsplash.com/photo-1556761175-5973dc0f32e7?auto=format&fit=crop&w=1920&q=80",
-  "/assets/skillset.jpg",
-];
+const BPO_IMAGE = `${import.meta.env.BASE_URL}assets/bpo-malaysia-youth.jpg`;
+
+const BPO_SOURCES = [BPO_IMAGE, `${import.meta.env.BASE_URL}assets/portrait-placeholder.svg`];
 
 export default function PeoplePanel() {
   const [pmSource, setPmSource] = useState(0);
@@ -64,7 +62,7 @@ export default function PeoplePanel() {
           <img
             className="portrait-bpo"
             src={BPO_SOURCES[bpoSource]}
-            alt="24x7 BPO health support center"
+            alt="Malaysian youth — 24x7 health support and skill mapping"
             onError={() => {
               setBpoSource((current) => (current < BPO_SOURCES.length - 1 ? current + 1 : current));
             }}

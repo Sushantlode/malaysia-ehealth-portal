@@ -70,6 +70,10 @@ function NavMenu({ label, value, options, onChange, disabled = false }) {
 }
 
 export default function Header({
+  scrolled = false,
+  activeView,
+  onHome,
+  onAbout,
   stateValue,
   districtValue,
   languageValue,
@@ -79,6 +83,7 @@ export default function Header({
   onSearch,
   onLogin,
 }) {
+  const [menuOpen, setMenuOpen] = useState(false);
   const districtOptions = useMemo(() => {
     if (!stateValue) {
       return [{ value: "", label: "Select state first" }];
@@ -90,6 +95,10 @@ export default function Header({
     ];
   }, [stateValue]);
 
+  useEffect(() => {
+    setMenuOpen(false);
+  }, [activeView]);
+
   function choose(handler, value) {
     handler({ target: { value } });
   }
@@ -99,62 +108,98 @@ export default function Header({
     onSearch({ key: "Enter", preventDefault() {} });
   }
 
+  function goHome() {
+    setMenuOpen(false);
+    onHome();
+  }
+
+  function goAbout() {
+    setMenuOpen(false);
+    onAbout();
+  }
+
   return (
-    <header className="topbar">
-      <div className="brand">
-        <div className="brand-mark">
-          <img src={FLAG_SRC} alt="Flag of Malaysia" />
-        </div>
-        <div className="brand-text">
-          <div className="brand-title">MALAYSIA</div>
-          <div className="brand-subtitle">eHealth System Portal</div>
-        </div>
+    <header className={scrolled ? "topbar is-scrolled" : "topbar"}>
+      <div className="topbar-row">
+        <button type="button" className="brand brand-btn" onClick={goHome}>
+          <div className="brand-mark">
+            <img src={FLAG_SRC} alt="Flag of Malaysia" />
+          </div>
+          <div className="brand-text">
+            <div className="brand-title">MALAYSIA</div>
+            <div className="brand-subtitle">eHealth System Portal</div>
+          </div>
+        </button>
+        <button
+          type="button"
+          className="nav-toggle"
+          aria-expanded={menuOpen}
+          aria-controls="topbar-panel"
+          aria-label={menuOpen ? "Close menu" : "Open menu"}
+          onClick={() => setMenuOpen((open) => !open)}
+        >
+          <span className="nav-toggle-bars" aria-hidden="true" />
+        </button>
       </div>
 
-      <nav className="nav-controls" aria-label="Location and language">
-        <NavMenu
-          label="Select State"
-          value={stateValue}
-          options={[{ value: "", label: "Select State" }, ...STATES.map((state) => ({ value: state, label: state }))]}
-          onChange={(value) => choose(onStateChange, value)}
-        />
-        <NavMenu
-          label="Select District"
-          value={districtValue}
-          options={districtOptions}
-          disabled={!stateValue}
-          onChange={(value) => choose(onDistrictChange, value)}
-        />
-        <NavMenu
-          label="Select Language"
-          value={languageValue}
-          options={[
-            { value: "", label: "Select Language" },
-            ...LANGUAGES.map((language) => ({ value: language.value, label: language.label })),
-          ]}
-          onChange={(value) => choose(onLanguageChange, value)}
-        />
-      </nav>
+      <div id="topbar-panel" className={menuOpen ? "topbar-panel is-open" : "topbar-panel"}>
+        <nav className="nav-controls" aria-label="Site navigation">
+          <button
+            type="button"
+            className={activeView === "home" ? "nav-tab is-active" : "nav-tab"}
+            onClick={goHome}
+          >
+            Home
+          </button>
+          <button
+            type="button"
+            className={activeView === "about" ? "nav-tab is-active" : "nav-tab"}
+            onClick={goAbout}
+          >
+            About
+          </button>
+          <NavMenu
+            label="Select State"
+            value={stateValue}
+            options={[{ value: "", label: "Select State" }, ...STATES.map((state) => ({ value: state, label: state }))]}
+            onChange={(value) => choose(onStateChange, value)}
+          />
+          <NavMenu
+            label="Select District"
+            value={districtValue}
+            options={districtOptions}
+            disabled={!stateValue}
+            onChange={(value) => choose(onDistrictChange, value)}
+          />
+          <NavMenu
+            label="Select Language"
+            value={languageValue}
+            options={[
+              { value: "", label: "Select Language" },
+              ...LANGUAGES.map((language) => ({ value: language.value, label: language.label })),
+            ]}
+            onChange={(value) => choose(onLanguageChange, value)}
+          />
+        </nav>
 
-      <form className="id-search" onSubmit={submitSearch}>
-        <input
-          id="mykadInput"
-          type="text"
-          placeholder="eHS Card No. / MyKad No."
-          autoComplete="off"
-          aria-label="eHS Card number or MyKad number"
-          onKeyDown={onSearch}
-        />
-        <button type="submit" className="id-icon-btn" aria-label="Search card number">
-          <svg viewBox="0 0 24 24" aria-hidden="true">
-            <circle cx="10" cy="10" r="6.2" fill="none" stroke="currentColor" strokeWidth="2.4" />
-            <path d="M14.6 14.6 20.5 20.5" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" />
+        <form className="id-search" onSubmit={submitSearch}>
+          <svg className="id-search-icon" viewBox="0 0 24 24" aria-hidden="true">
+            <circle cx="10.5" cy="10.5" r="6" fill="none" stroke="currentColor" strokeWidth="2" />
+            <path d="M15 15l5 5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
           </svg>
+          <input
+            id="mykadInput"
+            type="search"
+            placeholder="MyKad"
+            autoComplete="off"
+            aria-label="MyKad number"
+            onKeyDown={onSearch}
+          />
+        </form>
+        <button className="login" id="loginButton" type="button" onClick={onLogin}>
+          Login / Register
         </button>
-      </form>
-      <button className="login" id="loginButton" type="button" onClick={onLogin}>
-        Login / Register
-      </button>
+      </div>
     </header>
   );
 }

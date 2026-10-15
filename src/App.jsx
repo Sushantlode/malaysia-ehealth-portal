@@ -1,18 +1,24 @@
 import { useCallback, useEffect, useRef, useState } from "react";
+import AboutPage from "./components/AboutPage";
 import Header from "./components/Header";
+import HexDetailPanel from "./components/HexDetailPanel";
 import HexMap from "./components/HexMap";
 import PeoplePanel from "./components/PeoplePanel";
-import SetuSections from "./components/SetuSections";
+import SiteFooter from "./components/SiteFooter";
 import { LANGUAGES } from "./data";
 
 export default function App() {
+  const [view, setView] = useState("home");
   const [toast, setToast] = useState("");
   const [toastVisible, setToastVisible] = useState(false);
   const [showTop, setShowTop] = useState(false);
+  const [navScrolled, setNavScrolled] = useState(false);
   const [stateValue, setStateValue] = useState("");
   const [districtValue, setDistrictValue] = useState("");
   const [languageValue, setLanguageValue] = useState("");
+  const [scrollTargetHexId, setScrollTargetHexId] = useState(null);
   const toastTimer = useRef(0);
+  const detailScrollTimer = useRef(0);
 
   const showMessage = useCallback((message) => {
     setToast(message);
@@ -22,85 +28,124 @@ export default function App() {
   }, []);
 
   useEffect(() => {
-    const onScroll = () => setShowTop(window.scrollY > 400);
+    const onScroll = () => {
+      setShowTop(window.scrollY > 400);
+      setNavScrolled(window.scrollY > 16);
+    };
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => {
       window.removeEventListener("scroll", onScroll);
       window.clearTimeout(toastTimer.current);
+      window.clearTimeout(detailScrollTimer.current);
     };
   }, []);
 
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, [view]);
+
+  function goHome() {
+    setView("home");
+  }
+
+  function goAbout() {
+    setView("about");
+  }
+
   function selectHex(hex) {
-    if (hex.central) {
-      showMessage("Welcome to the Malaysia eHealth System Portal.");
-      document.getElementById("about-setu")?.scrollIntoView({ behavior: "smooth" });
-      return;
+    const onHome = view === "home";
+    if (!onHome) {
+      setView("home");
     }
-    showMessage(hex.name);
-    document.getElementById("what-we-offer")?.scrollIntoView({ behavior: "smooth" });
+    setScrollTargetHexId(hex.id);
+    showMessage(hex.central ? "Malaysia Portal — national HIX overview" : hex.name);
+    window.clearTimeout(detailScrollTimer.current);
+    detailScrollTimer.current = window.setTimeout(() => {
+      document.getElementById(`hex-detail-${hex.id}`)?.scrollIntoView({ behavior: "smooth", block: "start" });
+    }, onHome ? 80 : 360);
   }
 
   return (
-    <>
-      <div className="stage">
-        <div className="portal">
-          <div className="nav-shade" aria-hidden="true" />
-          <Header
-            stateValue={stateValue}
-            districtValue={districtValue}
-            languageValue={languageValue}
-            onStateChange={(event) => {
-              const state = event.target.value;
-              setStateValue(state);
-              setDistrictValue("");
-              showMessage(
-                state
-                  ? `Selected state: ${state}. District filtering requires integration.`
-                  : "Please select a state."
-              );
-            }}
-            onDistrictChange={(event) => {
-              const district = event.target.value;
-              setDistrictValue(district);
-              if (district) {
-                showMessage(`Selected district: ${district}. This selection is not sent to a server.`);
-              }
-            }}
-            onLanguageChange={(event) => {
-              const value = event.target.value;
-              setLanguageValue(value);
-              if (value) {
-                const language = LANGUAGES.find((item) => item.value === value);
-                showMessage(
-                  `Selected language: ${language?.name || value}. Translation files are not yet connected.`
-                );
-              }
-            }}
-            onSearch={(event) => {
-              if (event.key !== "Enter") return;
-              event.preventDefault();
-              showMessage(
-                "Card / MyKad verification is not connected. Do not enter real identity information on this demo."
-              );
-            }}
-            onLogin={() => {
-              showMessage(
-                "Login and registration are demonstration-only. Connect an approved authentication service before use."
-              );
+    <div className={navScrolled ? "app-shell nav-scrolled" : "app-shell"}>
+      <Header
+        scrolled={navScrolled}
+        activeView={view}
+        onHome={goHome}
+        onAbout={goAbout}
+        stateValue={stateValue}
+        districtValue={districtValue}
+        languageValue={languageValue}
+        onStateChange={(event) => {
+          const state = event.target.value;
+          setStateValue(state);
+          setDistrictValue("");
+          showMessage(
+            state ? `Selected state: ${state}. District filtering requires integration.` : "Please select a state."
+          );
+        }}
+        onDistrictChange={(event) => {
+          const district = event.target.value;
+          setDistrictValue(district);
+          if (district) {
+            showMessage(`Selected district: ${district}. This selection is not sent to a server.`);
+          }
+        }}
+        onLanguageChange={(event) => {
+          const value = event.target.value;
+          setLanguageValue(value);
+          if (value) {
+            const language = LANGUAGES.find((item) => item.value === value);
+            showMessage(`Selected language: ${language?.name || value}. Translation files are not yet connected.`);
+          }
+        }}
+        onSearch={(event) => {
+          if (event.key !== "Enter") return;
+          event.preventDefault();
+          showMessage(
+            "MyKad verification is not connected. Do not enter real identity information on this demo."
+          );
+        }}
+        onLogin={() => {
+          showMessage(
+            "Login and registration are demonstration-only. Connect an approved authentication service before use."
+          );
+        }}
+      />
+
+      {view === "home" ? (
+        <>
+          <div className="stage">
+            <div className="portal">
+              <div className="body">
+                <main className="main-panel">
+                  <HexMap onSelect={selectHex} />
+                </main>
+                <PeoplePanel />
+              </div>
+            </div>
+          </div>
+          <HexDetailPanel
+            scrollTargetId={scrollTargetHexId}
+            onJumpToMap={() => {
+              window.scrollTo({ top: 0, behavior: "smooth" });
             }}
           />
+        </>
+      ) : (
+        <AboutPage />
+      )}
 
-          <div className="body">
-            <main className="main-panel">
-              <HexMap onSelect={selectHex} />
-            </main>
-            <PeoplePanel />
-          </div>
-        </div>
-      </div>
-
-      <SetuSections />
+      <SiteFooter
+        onHome={goHome}
+        onAbout={goAbout}
+        onProgrammes={() => {
+          goHome();
+          window.setTimeout(() => {
+            document.getElementById("hex-service-detail")?.scrollIntoView({ behavior: "smooth", block: "start" });
+          }, view === "home" ? 80 : 360);
+        }}
+      />
 
       <button
         className={showTop ? "to-top show" : "to-top"}
@@ -113,6 +158,6 @@ export default function App() {
       <div className={toastVisible ? "toast visible" : "toast"} role="status" aria-live="polite">
         {toast}
       </div>
-    </>
+    </div>
   );
 }

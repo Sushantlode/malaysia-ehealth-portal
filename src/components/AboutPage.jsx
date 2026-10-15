@@ -1,19 +1,12 @@
 import { useState } from "react";
-import { ABOUT_IMAGE, HERO_POSTER, HERO_VIDEO, INSIGHTS, MODULES } from "../setuContent";
+import { ABOUT_IMAGE, INSIGHTS, MODULES } from "../setuContent";
 
-export default function SetuSections() {
+export default function AboutPage() {
   const [activeId, setActiveId] = useState(MODULES[0].id);
   const active = MODULES.find((module) => module.id === activeId) || MODULES[0];
 
   return (
-    <div className="setu-page">
-      <section className="hero-video" aria-label="SETU hero">
-        <video autoPlay muted loop playsInline poster={HERO_POSTER}>
-          <source src={HERO_VIDEO} type="video/mp4" />
-        </video>
-        <p>Health begins with awareness. Care begins with connection.</p>
-      </section>
-
+    <div className="about-page" id="about">
       <section className="setu-block" id="what-we-offer">
         <div className="setu-wrap">
           <p className="eyebrow">What we offer</p>
