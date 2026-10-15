@@ -59,7 +59,7 @@ export default function App() {
   function selectHex(hex) {
     if (hex.id === "hmis") {
       launchHmis();
-      showMessage("Opening Tata MD HMIS (auto sign-in)…");
+      showMessage("Opening HMIS…");
       return;
     }
     if (isSetuLinkedHex(hex.id)) {
@@ -72,7 +72,7 @@ export default function App() {
       setView("home");
     }
     setScrollTargetHexId(hex.id);
-    showMessage(hex.central ? "MALAYSIA HIE PORTAL — national HIX overview" : hex.name);
+    showMessage(hex.central ? "MALAYSIA HIX PORTAL — national HIX overview" : hex.name);
     window.clearTimeout(detailScrollTimer.current);
     detailScrollTimer.current = window.setTimeout(() => {
       document.getElementById(`hex-detail-${hex.id}`)?.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -145,7 +145,7 @@ export default function App() {
             }}
             onLaunchHmis={() => {
               launchHmis();
-              showMessage("Opening Tata MD HMIS (auto sign-in)…");
+              showMessage("Opening HMIS…");
             }}
             onLaunchSetu={(hexId) => {
               launchSetuForHex(hexId);

@@ -14,7 +14,7 @@ export default function HexMap({ onSelect }) {
           type="button"
           onClick={() => onSelect(hex)}
         >
-          <span className={hex.size ? `in ${hex.size}` : "in"}>
+          <span className={hex.central ? "in" : hex.size ? `in ${hex.size}` : "in"}>
             {hex.lines.map((line, index) => (
               <Fragment key={`${hex.id}-${index}`}>
                 {index > 0 && <br />}

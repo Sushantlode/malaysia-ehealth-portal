@@ -1,18 +1,18 @@
-/** Malaysia HIE stakeholder ecosystem (visual analytics — illustrative planning view). */
+/** Malaysia HIX stakeholder ecosystem (visual analytics — illustrative planning view). */
 
-export const HIE_ECOSYSTEM = {
+export const HIX_ECOSYSTEM = {
   eyebrow: "After the programme map",
-  title: "Malaysia HIE stakeholder ecosystem",
+  title: "Malaysia HIX stakeholder ecosystem",
   subtitle:
     "How MOH, providers, payers, citizens, and programmes connect on one national exchange — eHealth Healthcare ltd programmes on the hex map plug into this hub.",
   disclaimer: "Figures below are illustrative for demo and planning — not official MOH statistics.",
 };
 
-export const HIE_OVERVIEW = [
+export const HIX_OVERVIEW = [
   {
     id: "purpose",
     title: "Purpose",
-    text: "The Health Information Exchange (HIE) lets authorised organisations share the same trusted health facts instead of duplicating records in silos.",
+    text: "The national HIX lets authorised organisations share the same trusted health facts instead of duplicating records in silos.",
   },
   {
     id: "govern",
@@ -26,26 +26,26 @@ export const HIE_OVERVIEW = [
   },
 ];
 
-export const HIE_HUB = {
+export const HIX_HUB = {
   label: "National HIX",
   sub: "MOH-governed exchange",
 };
 
-export const HIE_METRICS = [
+export const HIX_METRICS = [
   { id: "stakeholders", value: "8", label: "Core stakeholder groups" },
   { id: "programmes", value: "21", label: "Programmes on the map" },
   { id: "flows", value: "4", label: "Primary data flow types" },
   { id: "states", value: "16", label: "States & territories linked" },
 ];
 
-export const HIE_LAYERS = [
+export const HIX_LAYERS = [
   { id: "experience", label: "Experience layer", items: "Portal, PHR, telemedicine, schemes", color: "#ffd100" },
   { id: "exchange", label: "HIX exchange layer", items: "APIs, consent, routing, audit log", color: "#0b2a66" },
   { id: "source", label: "Source systems", items: "HMIS, LIS, RIS, payers, NGOs", color: "#1d4ed8" },
   { id: "insight", label: "Insight layer", items: "Command centre, analytics, research", color: "#7c3aed" },
 ];
 
-export const HIE_FLOWS = [
+export const HIX_FLOWS = [
   { id: "clinical", label: "Clinical", detail: "Encounters, orders, results", share: 38, color: "#1d4ed8" },
   { id: "admin", label: "Administrative", detail: "Beds, referrals, discharge", share: 26, color: "#0b2a66" },
   { id: "financial", label: "Financial", detail: "Cover, claims, schemes", share: 22, color: "#b45309" },
@@ -53,7 +53,7 @@ export const HIE_FLOWS = [
 ];
 
 /** Relative daily exchange activity index (illustrative, max = 100). */
-export const HIE_ACTIVITY_BARS = [
+export const HIX_ACTIVITY_BARS = [
   { id: "moh", label: "MOH & states", value: 100, color: "#0b2a66" },
   { id: "hospitals", label: "Hospitals", value: 88, color: "#1d4ed8" },
   { id: "primary", label: "Clinics & PHC", value: 76, color: "#0369a1" },
@@ -64,7 +64,7 @@ export const HIE_ACTIVITY_BARS = [
   { id: "research", label: "Analytics & R&D", value: 28, color: "#4c1d95" },
 ];
 
-export const HIE_JOURNEY = [
+export const HIX_JOURNEY = [
   { step: "1", title: "Register & consent", detail: "Citizen or provider identity on HIX" },
   { step: "2", title: "Capture at source", detail: "Clinic, hospital, lab, or camp" },
   { step: "3", title: "Publish to HIX", detail: "Standard summary + coded results" },
@@ -72,7 +72,7 @@ export const HIE_JOURNEY = [
 ];
 
 /** Positions on 400×400 diagram (center 200,200). */
-export const HIE_NODES = [
+export const HIX_NODES = [
   {
     id: "moh",
     label: "MOH & states",
@@ -148,7 +148,7 @@ export const HIE_NODES = [
 ];
 
 /** Quarterly trend (illustrative index) for line chart. */
-export const HIE_TREND = [
+export const HIX_TREND = [
   { q: "Q1", value: 42 },
   { q: "Q2", value: 55 },
   { q: "Q3", value: 68 },

@@ -48,7 +48,7 @@ export const HEX_DETAIL_BY_ID = {
     ]
   ),
   communication: detail(
-    "Free Communication Channel",
+    "Communication Channel",
     "Trusted outreach for every household",
     "Preventive programmes fail when reminders never reach the patient. eHealth Healthcare ltd provides MOH-approved SMS, app, and IVR channels tied to PHR and programme enrolment — all logged on the HIX for compliance and multilingual delivery by state.",
     [
@@ -108,9 +108,9 @@ export const HEX_DETAIL_BY_ID = {
     ]
   ),
   portal: detail(
-    "MALAYSIA HIE PORTAL",
+    "MALAYSIA HIX PORTAL",
     "Front door to an interoperable national HIX",
-    "The Malaysia HIE portal is the citizen and provider entry point to eHealth Healthcare ltd — connecting clinics, hospitals, labs, insurers, NGOs, and programmes on one Health Information Exchange. One login surfaces services by state, language, and role while MOH governs standards, privacy, and uptime.",
+    "The Malaysia HIX portal is the citizen and provider entry point to eHealth Healthcare ltd — connecting clinics, hospitals, labs, insurers, NGOs, and programmes on one national HIX. One login surfaces services by state, language, and role while MOH governs standards, privacy, and uptime.",
     [
       "Single sign-on to telemedicine, PHR, schemes, diagnostics, and command views.",
       "State and district context from the navbar flows into every service request.",
@@ -129,7 +129,7 @@ export const HEX_DETAIL_BY_ID = {
   ),
   hmis: detail(
     "Free HMIS To Private & Govt. Hospitals",
-    "One clinical record layer for all facilities",
+    "",
     "Free HMIS on the HIX gives public and private hospitals the same admission, orders, discharge, and reporting templates — so Malaysia builds interoperability by default, not by retrofit.",
     [
       "Cloud HMIS with MOH master data (facilities, codes, schemes).",

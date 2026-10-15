@@ -190,8 +190,8 @@ export const HEXES = [
     id: "communication",
     c: 1,
     r: 5,
-    name: "Free Communication Channel",
-    lines: ["Free", "Communication", "Channel"],
+    name: "Communication Channel",
+    lines: ["Communication", "Channel", "for Households"],
   },
   {
     id: "checkups",
@@ -234,8 +234,8 @@ export const HEXES = [
     c: 3,
     r: 3,
     central: true,
-    name: "MALAYSIA HIE PORTAL",
-    lines: ["MALAYSIA", "HIE PORTAL"],
+    name: "MALAYSIA HIX PORTAL",
+    lines: ["MALAYSIA", "HIX PORTAL"],
   },
   {
     id: "clinics",
