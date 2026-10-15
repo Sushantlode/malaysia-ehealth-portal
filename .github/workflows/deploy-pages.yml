@@ -27,7 +27,7 @@ jobs:
       - run: npm run build
         env:
           VITE_BASE: /malaysia-ehealth-portal/
-          VITE_HMIS_PROXY_BASE: ${{ vars.HMIS_VERCEL_URL }}
+          VITE_HMIS_PROXY_BASE: ${{ vars.HMIS_VERCEL_URL || 'https://malaysia-ehealth-portal.vercel.app' }}
       - uses: actions/upload-pages-artifact@v3
         with:
           path: dist

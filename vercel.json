@@ -6,7 +6,11 @@
   "rewrites": [
     {
       "source": "/TATA_postgres/:path*",
-      "destination": "http://15.252.193.15:8080/TATA_postgres/:path*"
+      "destination": "/api/tata-postgres/:path*"
+    },
+    {
+      "source": "/hims-ui",
+      "destination": "/hims-ui/index.html"
     },
     {
       "source": "/hims-ui/:path*",

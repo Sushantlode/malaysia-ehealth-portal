@@ -2,7 +2,7 @@
 export const HMIS_ORIGIN = "http://15.252.193.15:8080";
 export const HMIS_UI_URL = `${HMIS_ORIGIN}/hims-ui/#/login`;
 /** HMIS route after portal auto sign-in (local/Vercel proxy or Tomcat SSO). */
-export const HMIS_POST_LOGIN_PATH = "/hims-ui/#/configuration/homesortcut";
+export const HMIS_POST_LOGIN_PATH = "/hims-ui/index.html#/configuration/homesortcut";
 /** Direct Tomcat SSO (404 until Cellbeans deploys public/malaysia-hmis-sso.html). */
 export const HMIS_SSO_URL = `${HMIS_ORIGIN}/hims-ui/malaysia-hmis-sso.html`;
 

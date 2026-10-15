@@ -27,7 +27,7 @@
   <body>
     <div class="box">
       <p id="status">Signing in to Tata MD HMIS…</p>
-      <p><a id="manual" href="./#/login">Open login form</a></p>
+      <p><a id="manual" href="./index.html#/login">Open login form</a></p>
     </div>
     <script>
       var CREDS = { userName: "Gayatri", password: "Gay@12", orgId: 1, unitId: 1 };
@@ -36,13 +36,15 @@
 
       var HMIS_HOME_HASH = "#/configuration/homesortcut";
 
-      function hmisAppUrlAfterLogin() {
+      function hmisUiBase() {
         var path = location.pathname || "";
         var idx = path.indexOf("/hims-ui");
-        if (idx !== -1) {
-          return path.slice(0, idx + "/hims-ui".length) + "/" + HMIS_HOME_HASH;
-        }
-        return "/hims-ui/" + HMIS_HOME_HASH;
+        if (idx !== -1) return path.slice(0, idx + "/hims-ui".length);
+        return "/hims-ui";
+      }
+
+      function hmisAppUrlAfterLogin() {
+        return hmisUiBase() + "/index.html" + HMIS_HOME_HASH;
       }
 
       function persistSession(data) {
@@ -78,6 +80,17 @@
       }
 
       function loginViaApi() {
+        var onVercel = location.hostname.indexOf("vercel.app") !== -1;
+        if (onVercel) {
+          return fetch("/api/hmis-login", {
+            method: "GET",
+            headers: { Accept: "application/json" },
+          }).then(function (res) {
+            return res.json().then(function (body) {
+              return { ok: res.ok, body: body };
+            });
+          });
+        }
         return fetch("/TATA_postgres/loginaction/authuserlogin/", {
           method: "POST",
           headers: { "Content-Type": "application/json", "X-tenantId": String(CREDS.orgId) },
