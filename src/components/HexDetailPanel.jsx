@@ -1,8 +1,9 @@
 import { useEffect, useRef, useState } from "react";
 import { HEXES } from "../data";
 import { getHexDetail } from "../hexDetailContent";
+import { isSetuLinkedHex } from "../setuConfig";
 
-function HexServiceCard({ hex, index, scrollTargetId, onJumpToMap, onLaunchHmis, onLaunchPreventiveHealth }) {
+function HexServiceCard({ hex, index, scrollTargetId, onJumpToMap, onLaunchHmis, onLaunchSetu }) {
   const detail = getHexDetail(hex.id);
   const rowRef = useRef(null);
   const [inView, setInView] = useState(false);
@@ -61,9 +62,9 @@ function HexServiceCard({ hex, index, scrollTargetId, onJumpToMap, onLaunchHmis,
                   Open HMIS login
                 </button>
               ) : null}
-              {hex.id === "checkups" && onLaunchPreventiveHealth ? (
-                <button type="button" className="hex-service-launch-link" onClick={onLaunchPreventiveHealth}>
-                  Open Preventive Health
+              {isSetuLinkedHex(hex.id) && onLaunchSetu ? (
+                <button type="button" className="hex-service-launch-link" onClick={() => onLaunchSetu(hex.id)}>
+                  Open on SETU
                 </button>
               ) : null}
               <button type="button" className="hex-service-map-link" onClick={() => onJumpToMap(hex.id)}>
@@ -77,7 +78,7 @@ function HexServiceCard({ hex, index, scrollTargetId, onJumpToMap, onLaunchHmis,
   );
 }
 
-export default function HexDetailPanel({ scrollTargetId, onJumpToMap, onLaunchHmis, onLaunchPreventiveHealth }) {
+export default function HexDetailPanel({ scrollTargetId, onJumpToMap, onLaunchHmis, onLaunchSetu }) {
   return (
     <section className="hex-services setu-block" id="hex-service-detail" aria-labelledby="hex-services-heading">
       <div className="setu-wrap hex-services-intro">
@@ -99,7 +100,7 @@ export default function HexDetailPanel({ scrollTargetId, onJumpToMap, onLaunchHm
               scrollTargetId={scrollTargetId}
               onJumpToMap={onJumpToMap}
               onLaunchHmis={onLaunchHmis}
-              onLaunchPreventiveHealth={onLaunchPreventiveHealth}
+              onLaunchSetu={onLaunchSetu}
             />
           ))}
         </ol>

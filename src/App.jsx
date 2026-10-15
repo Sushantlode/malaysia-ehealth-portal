@@ -7,7 +7,7 @@ import HexMap from "./components/HexMap";
 import PeoplePanel from "./components/PeoplePanel";
 import SiteFooter from "./components/SiteFooter";
 import { LANGUAGES } from "./data";
-import { launchSetuLogin, launchSetuPreventiveHealth } from "./externalLinks";
+import { SETU_OPEN_TOAST, isSetuLinkedHex, launchSetuForHex, launchSetuLogin } from "./externalLinks";
 import { launchHmis } from "./hmisLaunch";
 
 export default function App() {
@@ -62,9 +62,9 @@ export default function App() {
       showMessage("Opening Tata MD HMIS login.");
       return;
     }
-    if (hex.id === "checkups") {
-      launchSetuPreventiveHealth();
-      showMessage("Opening Preventive Health on SETU — if asked, mobile 9999999999, OTP 000000 (copied).");
+    if (isSetuLinkedHex(hex.id)) {
+      launchSetuForHex(hex.id);
+      showMessage(SETU_OPEN_TOAST);
       return;
     }
     const onHome = view === "home";
@@ -147,9 +147,9 @@ export default function App() {
               launchHmis();
               showMessage("Opening Tata MD HMIS login.");
             }}
-            onLaunchPreventiveHealth={() => {
-              launchSetuPreventiveHealth();
-              showMessage("Opening Preventive Health on SETU — if asked, mobile 9999999999, OTP 000000 (copied).");
+            onLaunchSetu={(hexId) => {
+              launchSetuForHex(hexId);
+              showMessage(SETU_OPEN_TOAST);
             }}
           />
         </>

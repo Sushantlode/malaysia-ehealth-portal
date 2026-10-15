@@ -1,4 +1,13 @@
-import { SETU_DEMO_USER, SETU_LOGIN_URL, SETU_ORIGIN, SETU_PREVENTIVE_HEALTH_URL } from "./setuConfig";
+import {
+  SETU_DEMO_USER,
+  SETU_LOGIN_URL,
+  SETU_ORIGIN,
+  SETU_PREVENTIVE_HEALTH_URL,
+  isSetuLinkedHex,
+  setuAppUrlForHex,
+} from "./setuConfig";
+
+export { isSetuLinkedHex, SETU_LOGIN_URL, SETU_ORIGIN, SETU_PREVENTIVE_HEALTH_URL };
 
 function copyDemoOtp() {
   if (navigator.clipboard?.writeText) {
@@ -6,13 +15,15 @@ function copyDemoOtp() {
   }
 }
 
-/** Opens SETU preventive health (sign in on SETU if prompted). */
-export function launchSetuPreventiveHealth() {
+export function launchSetuForHex(hexId) {
   copyDemoOtp();
-  window.open(SETU_PREVENTIVE_HEALTH_URL, "_blank", "noopener,noreferrer");
+  window.open(setuAppUrlForHex(hexId), "_blank", "noopener,noreferrer");
 }
 
-/** Opens SETU login with demo OTP copied. */
+export function launchSetuPreventiveHealth() {
+  launchSetuForHex("checkups");
+}
+
 export function launchSetuLogin() {
   copyDemoOtp();
   window.open(SETU_LOGIN_URL, "_blank", "noopener,noreferrer");
@@ -22,4 +33,5 @@ export function launchSetuLoginPageManual() {
   launchSetuLogin();
 }
 
-export { SETU_LOGIN_URL, SETU_ORIGIN, SETU_PREVENTIVE_HEALTH_URL };
+export const SETU_OPEN_TOAST =
+  "Opening on SETU — if asked to sign in: mobile 9999999999, OTP 000000 (copied).";
