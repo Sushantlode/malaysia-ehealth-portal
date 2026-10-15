@@ -1,4 +1,4 @@
-/** Proxies HMIS API (/TATA_postgres/*) to Tata MD Tomcat (Vercel cannot use raw IP rewrites reliably). */
+/** Proxies /TATA_postgres/* to Tata MD HMIS API (used from Vercel rewrites). */
 const HMIS_API = "http://15.252.193.15:8080/TATA_postgres";
 
 function readBody(req) {
@@ -11,10 +11,14 @@ function readBody(req) {
 }
 
 export default async function handler(req, res) {
-  const parts = req.query.path;
-  const path = Array.isArray(parts) ? parts.join("/") : parts || "";
-  const target = `${HMIS_API}/${path}`;
+  const path = req.query.path;
+  const pathStr = Array.isArray(path) ? path.join("/") : path || "";
+  if (!pathStr) {
+    res.status(400).json({ msg: "Missing path" });
+    return;
+  }
 
+  const target = `${HMIS_API}/${pathStr}`;
   const headers = {
     "Content-Type": req.headers["content-type"] || "application/json",
   };
@@ -31,8 +35,7 @@ export default async function handler(req, res) {
     const contentType = upstream.headers.get("content-type");
     if (contentType) res.setHeader("Content-Type", contentType);
     res.setHeader("Access-Control-Allow-Origin", "*");
-    const buf = Buffer.from(await upstream.arrayBuffer());
-    res.end(buf);
+    res.end(Buffer.from(await upstream.arrayBuffer()));
   } catch (err) {
     res.status(502).json({ login_status: false, msg: String(err?.message || err) });
   }

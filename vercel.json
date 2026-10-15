@@ -6,7 +6,7 @@
   "rewrites": [
     {
       "source": "/TATA_postgres/:path*",
-      "destination": "/api/tata-postgres/:path*"
+      "destination": "/api/hmis-backend?path=:path*"
     },
     {
       "source": "/hims-ui",
