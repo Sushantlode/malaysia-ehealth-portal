@@ -87,13 +87,14 @@ function BarValue({ target, live, index }) {
   return <span className="hix-bar-value">{value}</span>;
 }
 
-function LegendShare({ share, live, index }) {
-  const value = useCountUp(share, live, 800, 520 + index * 110);
-  return <span className="hix-legend-share">{value}%</span>;
+function FlowShareCount({ share, live, index }) {
+  const value = useCountUp(share, live, 750, 400 + index * 100);
+  return <span className="hix-flow-share">{value}%</span>;
 }
 
 export default function HixStakeholderAnalytics() {
   const flowTotal = HIX_FLOWS.reduce((sum, f) => sum + f.share, 0);
+  const leadFlow = HIX_FLOWS.reduce((best, flow) => (flow.share > best.share ? flow : best), HIX_FLOWS[0]);
   const sectionRef = useRef(null);
   const chartsRef = useRef(null);
   const [animated, setAnimated] = useState(false);
@@ -272,49 +273,64 @@ export default function HixStakeholderAnalytics() {
               <h3 className="hix-chart-title">Share of message types on HIX</h3>
               <p className="hix-chart-caption">Mix of clinical, admin, financial, public health</p>
             </div>
-            <div className="hix-donut-wrap">
-              <svg className="hix-donut" viewBox="0 0 120 120" role="img" aria-label="Flow type mix chart">
-                <circle className="hix-donut-orbit" cx="60" cy="60" r="54" />
-                {(() => {
-                  let offset = 0;
-                  return HIX_FLOWS.map((flow, i) => {
-                    const dash = (flow.share / flowTotal) * 100;
-                    const circle = (
-                      <circle
-                        key={flow.id}
-                        className="hix-donut-segment"
-                        style={{ "--seg-i": i, "--seg-dash": dash }}
-                        cx="60"
-                        cy="60"
-                        r="46"
-                        fill="none"
-                        stroke={flow.color}
-                        strokeWidth="16"
-                        pathLength="100"
-                        strokeDasharray={`${dash} ${100 - dash}`}
-                        strokeDashoffset={-offset}
-                        transform="rotate(-90 60 60)"
-                      />
-                    );
-                    offset += dash;
-                    return circle;
-                  });
-                })()}
-                <circle className="hix-donut-center" cx="60" cy="60" r="28" />
-                <text className="hix-donut-center-label" x="60" y="58" textAnchor="middle">
-                  HIX
-                </text>
-                <text className="hix-donut-center-sub" x="60" y="72" textAnchor="middle">
-                  mix
-                </text>
-              </svg>
-              <ul className="hix-donut-legend">
+            <div className="hix-message-mix">
+              <div className="hix-donut-visual">
+                <svg className="hix-donut" viewBox="0 0 120 120" role="img" aria-label="Flow type mix chart">
+                  <circle className="hix-donut-track" cx="60" cy="60" r="46" fill="none" strokeWidth="14" />
+                  {(() => {
+                    let offset = 0;
+                    return HIX_FLOWS.map((flow, i) => {
+                      const dash = (flow.share / flowTotal) * 100;
+                      const dashLive = `${dash} ${100 - dash}`;
+                      const dashIdle = `0 ${100}`;
+                      const circle = (
+                        <circle
+                          key={flow.id}
+                          className="hix-donut-segment"
+                          style={{ "--seg-i": i }}
+                          cx="60"
+                          cy="60"
+                          r="46"
+                          fill="none"
+                          stroke={flow.color}
+                          strokeWidth="14"
+                          strokeLinecap="round"
+                          pathLength="100"
+                          strokeDasharray={chartsLive ? dashLive : dashIdle}
+                          strokeDashoffset={-offset}
+                          transform="rotate(-90 60 60)"
+                        />
+                      );
+                      offset += dash;
+                      return circle;
+                    });
+                  })()}
+                  <circle className="hix-donut-center" cx="60" cy="60" r="30" />
+                  <text className="hix-donut-center-pct" x="60" y="57" textAnchor="middle">
+                    {leadFlow.share}%
+                  </text>
+                  <text className="hix-donut-center-type" x="60" y="71" textAnchor="middle">
+                    {leadFlow.label}
+                  </text>
+                </svg>
+                <p className="hix-donut-caption">Largest share on the exchange</p>
+              </div>
+              <ul className="hix-flow-list" aria-label="Message type breakdown">
                 {HIX_FLOWS.map((flow, i) => (
-                  <li key={flow.id} style={{ "--legend-i": i }}>
-                    <span className="hix-legend-dot" style={{ "--dot-color": flow.color }} aria-hidden="true" />
-                    <span className="hix-legend-text">
-                      {flow.label} — <LegendShare share={flow.share} live={chartsLive} index={i} />
-                    </span>
+                  <li
+                    key={flow.id}
+                    className="hix-flow-item"
+                    style={{ "--flow-i": i, "--flow-color": flow.color, "--flow-pct": `${flow.share}%` }}
+                  >
+                    <div className="hix-flow-item-top">
+                      <span className="hix-flow-swatch" style={{ background: flow.color }} aria-hidden="true" />
+                      <span className="hix-flow-label">{flow.label}</span>
+                      <FlowShareCount share={flow.share} live={chartsLive} index={i} />
+                    </div>
+                    <div className="hix-flow-bar-track">
+                      <div className="hix-flow-bar-fill" />
+                    </div>
+                    <p className="hix-flow-detail">{flow.detail}</p>
                   </li>
                 ))}
               </ul>

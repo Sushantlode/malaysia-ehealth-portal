@@ -170,14 +170,10 @@ button,input,select,textarea{font:inherit;font-family:var(--font)!important;font
 .hix-charts-row.is-live .hix-bar-fill{animation:hix-bar-grow 1.05s cubic-bezier(.22,.8,.2,1) forwards,hix-bar-shimmer 2.4s ease-in-out infinite;animation-delay:calc(var(--bar-i,0)*.09s),calc(1.15s + var(--bar-i,0)*.09s)}
 .hix-charts-row.is-live .hix-bar-value{animation:hix-value-pop .5s cubic-bezier(.22,.8,.2,1) both,hix-value-tick 2s ease-in-out infinite;animation-delay:calc(.35s + var(--bar-i,0)*.09s),calc(1.6s + var(--bar-i,0)*.15s)}
 .hix-charts-row.is-live .hix-bar-track{animation:hix-track-pulse 2.6s ease-in-out infinite;animation-delay:calc(var(--bar-i,0)*.15s)}
-.hix-charts-row.is-live .hix-donut{animation:hix-donut-in .85s cubic-bezier(.22,.8,.2,1) both .15s,hix-donut-idle 5s ease-in-out infinite 1.2s}
-.hix-charts-row.is-live .hix-donut-orbit{transform-origin:60px 60px;animation:hix-orbit-spin 14s linear infinite}
-.hix-charts-row.is-live .hix-donut-center{animation:hix-center-pop .6s cubic-bezier(.22,.8,.2,1) both .65s,hix-center-pulse 2.5s ease-in-out infinite 1.3s}
-.hix-charts-row.is-live .hix-donut-center-label,.hix-charts-row.is-live .hix-donut-center-sub{animation:hix-fade-in .45s ease both;animation-delay:.75s}
-.hix-charts-row.is-live .hix-donut-segment{animation:hix-donut-segment .85s cubic-bezier(.22,.8,.2,1) both,hix-seg-glow 2.2s ease-in-out infinite both;animation-delay:calc(.2s + var(--seg-i,0)*.12s),calc(1.4s + var(--seg-i,0)*.35s)}
-.hix-charts-row.is-live .hix-donut-legend li{opacity:0;animation:hix-legend-in .45s ease forwards;animation-delay:calc(.55s + var(--legend-i,0)*.1s)}
-.hix-charts-row.is-live .hix-legend-dot{animation:hix-legend-dot 2.2s ease-in-out infinite;animation-delay:calc(var(--legend-i,0)*.2s)}
-.hix-charts-row.is-live .hix-legend-share{display:inline-block;animation:hix-share-flash 2.4s ease-in-out infinite;animation-delay:calc(1s + var(--legend-i,0)*.25s)}
+.hix-charts-row.is-live .hix-donut-visual{animation:hix-donut-fade-in .55s cubic-bezier(.22,.8,.2,1) both .1s}
+.hix-charts-row.is-live .hix-donut-center-pct,.hix-charts-row.is-live .hix-donut-center-type{animation:hix-fade-in .45s ease both;animation-delay:.55s}
+.hix-charts-row.is-live .hix-flow-item{animation:hix-flow-item-in .45s ease both;animation-delay:calc(.15s + var(--flow-i,0)*.08s)}
+.hix-charts-row.is-live .hix-flow-bar-fill{animation:hix-bar-grow .85s cubic-bezier(.22,.8,.2,1) forwards;animation-delay:calc(.35s + var(--flow-i,0)*.1s)}
 .hix-charts-row.is-live .hix-trend-grid{animation:hix-grid-rise .7s ease both;animation-delay:calc(var(--grid-i,0)*.08s)}
 .hix-charts-row.is-live .hix-trend-area{animation:hix-area-fill 1.4s cubic-bezier(.22,.8,.2,1) forwards .35s,hix-area-breathe 3s ease-in-out infinite 1.8s}
 .hix-charts-row.is-live .hix-axis{stroke-dasharray:400;stroke-dashoffset:400;animation:hix-axis-draw 1s ease forwards .1s}
@@ -201,16 +197,8 @@ button,input,select,textarea{font:inherit;font-family:var(--font)!important;font
 @keyframes hix-value-pop{from{opacity:0;transform:scale(.6)}to{opacity:1;transform:scale(1)}}
 @keyframes hix-value-tick{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}
 @keyframes hix-track-pulse{0%,100%{background:#e2e8f0}50%{background:#d1d5db}}
-@keyframes hix-donut-in{from{opacity:0;transform:scale(.88) rotate(-25deg)}to{opacity:1;transform:scale(1) rotate(0)}}
-@keyframes hix-donut-idle{0%,100%{transform:scale(1) rotate(0)}50%{transform:scale(1.04) rotate(3deg)}}
-@keyframes hix-orbit-spin{to{transform:rotate(360deg)}}
-@keyframes hix-center-pop{from{opacity:0;transform:scale(.5)}to{opacity:1;transform:scale(1)}}
-@keyframes hix-center-pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.06)}}
-@keyframes hix-donut-segment{from{opacity:0;stroke-width:0}to{opacity:1;stroke-width:16}}
-@keyframes hix-seg-glow{0%,100%{opacity:1;filter:brightness(1)}50%{opacity:.85;filter:brightness(1.25)}}
-@keyframes hix-legend-in{from{opacity:0;transform:translateX(-6px)}to{opacity:1;transform:translateX(0)}}
-@keyframes hix-legend-dot{0%,100%{transform:scale(1)}50%{transform:scale(1.35)}}
-@keyframes hix-share-flash{0%,100%{color:#334155}50%{color:#0b2a66}}
+@keyframes hix-donut-fade-in{from{opacity:0;transform:scale(.94)}to{opacity:1;transform:scale(1)}}
+@keyframes hix-flow-item-in{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
 @keyframes hix-grid-rise{from{opacity:0;transform:scaleY(0);transform-origin:bottom}to{opacity:1;transform:scaleY(1)}}
 @keyframes hix-area-fill{from{opacity:0}to{opacity:1}}
 @keyframes hix-area-breathe{0%,100%{opacity:.22}50%{opacity:.32}}
@@ -228,16 +216,30 @@ button,input,select,textarea{font:inherit;font-family:var(--font)!important;font
 @keyframes hix-node-pulse{0%,100%{opacity:1}50%{opacity:.82}}
 @keyframes hix-hub-breathe{0%,100%{opacity:.35}50%{opacity:.55}}
 .hix-bar-value{font-size:14px;font-weight:800;color:#0b2a66;text-align:right;min-width:2ch;display:inline-block}
-.hix-donut-wrap{display:flex;flex-direction:column;align-items:center;gap:16px}
-.hix-donut{width:168px;height:168px;display:block;overflow:visible}
-.hix-donut-orbit{fill:none;stroke:#c7d2fe;stroke-width:1.5;stroke-dasharray:4 6;opacity:.85}
-.hix-donut-center{fill:#fff;stroke:#0b2a66;stroke-width:2}
-.hix-donut-center-label{fill:#0b2a66;font-size:11px;font-weight:800;font-family:var(--font),system-ui,sans-serif}
-.hix-donut-center-sub{fill:#64748b;font-size:9px;font-weight:700;font-family:var(--font),system-ui,sans-serif;letter-spacing:.08em;text-transform:uppercase}
-.hix-donut-legend{list-style:none;margin:0;padding:0;width:100%;display:flex;flex-direction:column;gap:8px}
-.hix-donut-legend li{display:flex;align-items:center;gap:10px;font-size:14px;font-weight:600;color:#334155}
-.hix-legend-dot{width:12px;height:12px;border-radius:50%;flex:none;background:var(--dot-color,#0b2a66);box-shadow:0 0 0 2px #fff,0 0 0 3px var(--dot-color,#0b2a66)}
-.hix-legend-share{font-weight:800;color:#0b2a66}
+.hix-message-mix{display:grid;grid-template-columns:minmax(132px,152px) minmax(0,1fr);gap:16px 20px;align-items:start}
+.hix-donut-visual{display:flex;flex-direction:column;align-items:center;gap:8px}
+.hix-donut{width:152px;height:152px;display:block;overflow:visible}
+.hix-donut-track{stroke:#e2e8f0}
+.hix-donut-segment{transition:stroke-dasharray .85s cubic-bezier(.22,.8,.2,1);transition-delay:calc(var(--seg-i,0)*.16s)}
+.hix-donut-center{fill:#fff;stroke:#0b2a66;stroke-width:2;filter:drop-shadow(0 2px 6px rgba(11,42,102,.08))}
+.hix-donut-center-pct{fill:#0b2a66;font-size:17px;font-weight:800;font-family:var(--font),system-ui,sans-serif}
+.hix-donut-center-type{fill:#475569;font-size:9px;font-weight:700;font-family:var(--font),system-ui,sans-serif;letter-spacing:.02em}
+.hix-donut-caption{margin:0;font-size:11px;line-height:1.35;font-weight:600;color:#64748b;text-align:center;max-width:140px}
+.hix-flow-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px}
+.hix-flow-item{padding:10px 12px;border-radius:12px;background:#f8fafc;border:1px solid #e2e8f0;transition:border-color .2s ease,box-shadow .2s ease}
+.hix-flow-item:hover{border-color:#c7d2fe;box-shadow:0 4px 14px rgba(11,42,102,.06)}
+.hix-flow-item-top{display:flex;align-items:center;gap:8px}
+.hix-flow-swatch{width:10px;height:10px;border-radius:3px;flex:none}
+.hix-flow-label{flex:1;font-size:13px;font-weight:800;color:#0b2a66;line-height:1.25}
+.hix-flow-share{font-size:14px;font-weight:800;color:#0b2a66;font-variant-numeric:tabular-nums}
+.hix-flow-bar-track{height:7px;margin-top:8px;border-radius:999px;background:#e2e8f0;overflow:hidden}
+.hix-flow-bar-fill{width:var(--flow-pct);height:100%;border-radius:999px;background:var(--flow-color);transform:scaleX(0);transform-origin:left center}
+.hix-flow-detail{margin:6px 0 0;font-size:11px;line-height:1.45;font-weight:500;color:#64748b}
+@media (max-width:900px){
+  .hix-message-mix{grid-template-columns:1fr}
+  .hix-donut-visual{flex-direction:row;flex-wrap:wrap;justify-content:center;gap:12px 16px}
+  .hix-donut-caption{max-width:none;text-align:left;flex:1;min-width:160px;align-self:center}
+}
 .hix-line-chart{width:100%;min-height:140px;height:auto;display:block;overflow:visible}
 .hix-trend-grid{stroke:#e2e8f0;stroke-width:1;stroke-dasharray:3 4}
 .hix-trend-area{fill:url(#hixAreaGrad);opacity:0}
@@ -326,7 +328,9 @@ button,input,select,textarea{font:inherit;font-family:var(--font)!important;font
   .hix-charts-row.is-live .hix-trend-area{opacity:.25}
   .hix-charts-row.is-live .hix-bar-fill{transform:scaleX(1)}
   .hix-charts-row.is-live .hix-trend-line{stroke-dashoffset:0}
-  .hix-charts-row.is-live .hix-donut-segment,.hix-charts-row.is-live .hix-donut-legend li,.hix-charts-row.is-live .hix-trend-dot,.hix-charts-row.is-live .hix-trend-label{opacity:1}
+  .hix-charts-row.is-live .hix-flow-bar-fill{transform:scaleX(1)}
+  .hix-charts-row.is-live .hix-trend-dot,.hix-charts-row.is-live .hix-trend-label{opacity:1}
+  .hix-donut-segment{transition:none}
   .hix-ecosystem.is-animated .hix-metrics li,.hix-ecosystem.is-animated .hix-ring,.hix-ecosystem.is-animated .hix-ring-inner,.hix-ecosystem.is-animated .hix-spoke,.hix-ecosystem.is-animated .hix-node-dot-svg,.hix-ecosystem.is-animated .hix-hub-outer{animation:none!important}
   .hix-ecosystem.is-animated .hix-metrics li{opacity:1}
   .hex-service-item,.hex-service-thumb{opacity:1;transform:none}
