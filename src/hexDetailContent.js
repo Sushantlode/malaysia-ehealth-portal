@@ -128,9 +128,9 @@ export const HEX_DETAIL_BY_ID = {
     ]
   ),
   hmis: detail(
-    "Free HMIS To Private & Govt. Hospitals",
+    "HMIS To Private & Govt. Hospitals",
     "",
-    "Free HMIS on the HIX gives public and private hospitals the same admission, orders, discharge, and reporting templates — so Malaysia builds interoperability by default, not by retrofit.",
+    "HMIS on the HIX gives public and private hospitals the same admission, orders, discharge, and reporting templates — so Malaysia builds interoperability by default, not by retrofit.",
     [
       "Cloud HMIS with MOH master data (facilities, codes, schemes).",
       "Automatic HIX submission of summaries, notifiable events, and bed stats.",

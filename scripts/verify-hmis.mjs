@@ -5,8 +5,8 @@
 const API = "http://15.252.193.15:8080/TATA_postgres/loginaction/authuserlogin/";
 const UI = "http://15.252.193.15:8080/hims-ui/";
 const CREDS = {
-  userName: "Gayatri",
-  password: "Gay@12",
+  userName: "superadmin",
+  password: "123",
   orgId: 1,
   unitId: 1,
 };
@@ -26,7 +26,7 @@ async function main() {
   const loginBody = await loginRes.json().catch(() => ({}));
   const loggedIn = loginBody.login_status === true && Boolean(loginBody.access_token);
   console.log(
-    `HMIS API login (Gayatri): HTTP ${loginRes.status} login_status=${loginBody.login_status} token=${loggedIn ? "yes" : "no"}`
+    `HMIS API login (superadmin): HTTP ${loginRes.status} login_status=${loginBody.login_status} token=${loggedIn ? "yes" : "no"}`
   );
   ok &&= loggedIn;
 

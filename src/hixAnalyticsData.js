@@ -5,7 +5,7 @@ export const HIX_ECOSYSTEM = {
   title: "Malaysia HIX stakeholder ecosystem",
   subtitle:
     "How MOH, providers, payers, citizens, and programmes connect on one national exchange — eHealth Healthcare ltd programmes on the hex map plug into this hub.",
-  disclaimer: "Figures below are illustrative for demo and planning — not official MOH statistics.",
+  disclaimer: "Figures below are illustrative for planning — not official MOH statistics.",
 };
 
 export const HIX_OVERVIEW = [

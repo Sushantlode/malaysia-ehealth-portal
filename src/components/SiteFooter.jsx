@@ -20,7 +20,7 @@ export default function SiteFooter({ onHome, onAbout }) {
             </span>
             <p className="site-footer-lead">Malaysia eHealth System Portal</p>
             <p className="site-footer-copy">
-              Demo entry point for HIX programmes — citizens, providers, and eHealth Healthcare ltd (not an official MOH site).
+              Entry point for HIX programmes — citizens, providers, and eHealth Healthcare ltd (not an official MOH site).
             </p>
           </div>
 
@@ -49,7 +49,7 @@ export default function SiteFooter({ onHome, onAbout }) {
           </div>
 
           <div className="site-footer-col">
-            <h3 className="site-footer-heading">Contact (demo)</h3>
+            <h3 className="site-footer-heading">Contact</h3>
             <ul className="site-footer-list site-footer-contact-compact">
               <li>
                 <a href="tel:+60380008000">+60 3-8000 8000</a>
@@ -65,8 +65,7 @@ export default function SiteFooter({ onHome, onAbout }) {
 
         <div className="site-footer-meta">
           <p className="site-footer-legal">
-            <strong className="site-footer-disclaimer-label">Demo only.</strong> Do not submit real MyKad or clinical
-            data. © {year} Malaysia eHealth Portal.
+            Do not submit real MyKad or clinical data. © {year} Malaysia eHealth Portal.
             <span className="site-footer-sep"> · </span>
             <button type="button" className="site-footer-link-btn inline">
               Privacy

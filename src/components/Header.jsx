@@ -192,10 +192,15 @@ export default function Header({
               </svg>
               <input
                 id="mykadInput"
+                name="mykad"
                 type="search"
-                placeholder="MyKad"
+                inputMode="numeric"
+                placeholder="MyKad No."
                 autoComplete="off"
+                spellCheck={false}
+                maxLength={14}
                 aria-label="MyKad number"
+                title="Enter MyKad number (12 digits)"
                 onKeyDown={onSearch}
               />
             </form>

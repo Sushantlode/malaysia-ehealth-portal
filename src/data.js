@@ -250,8 +250,8 @@ export const HEXES = [
     c: 4,
     r: 0,
     size: "t-s2",
-    name: "Free HMIS to Private and Government Hospitals",
-    lines: ["Free HMIS", "To Private & Govt.", "Hospitals"],
+    name: "HMIS for Private and Government Hospitals",
+    lines: ["HMIS", "To Private & Govt.", "Hospitals"],
   },
   {
     id: "tracking",

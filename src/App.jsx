@@ -116,7 +116,7 @@ export default function App() {
           if (event.key !== "Enter") return;
           event.preventDefault();
           showMessage(
-            "MyKad verification is not connected. Do not enter real identity information on this demo."
+            "MyKad verification is not connected. Do not enter real identity information on this portal."
           );
         }}
         onLogin={() => {

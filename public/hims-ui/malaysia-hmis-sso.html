@@ -30,7 +30,7 @@
       <p><a id="manual" href="./index.html#/login">Open login form</a></p>
     </div>
     <script>
-      var CREDS = { userName: "Gayatri", password: "Gay@12", orgId: 1, unitId: 1 };
+      var CREDS = { userName: "superadmin", password: "123", orgId: 1, unitId: 1 };
       var statusEl = document.getElementById("status");
       var manualEl = document.getElementById("manual");
 
@@ -125,7 +125,7 @@
           })
           .catch(function (err) {
             statusEl.textContent = "Auto sign-in failed.";
-            manualEl.textContent = "Sign in manually (Gayatri / Gay@12 / CB / TATA MD)";
+            manualEl.textContent = "Sign in manually (superadmin / 123 / CB / TATA MD)";
             console.error(err);
           });
       })();

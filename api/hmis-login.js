@@ -2,8 +2,8 @@
 const HMIS_LOGIN =
   "http://15.252.193.15:8080/TATA_postgres/loginaction/authuserlogin/";
 const CREDS = {
-  userName: "Gayatri",
-  password: "Gay@12",
+  userName: "superadmin",
+  password: "123",
   orgId: 1,
   unitId: 1,
 };
