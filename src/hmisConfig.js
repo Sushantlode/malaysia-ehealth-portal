@@ -11,7 +11,7 @@ export const HMIS_PROXY_BASE = (import.meta.env.VITE_HMIS_PROXY_BASE || "").repl
 
 export function hmisProxyOrigin() {
   if (HMIS_PROXY_BASE) return HMIS_PROXY_BASE;
-  if (typeof window !== "undefined" && window.location.hostname.includes("vercel.app")) {
+  if (typeof window !== "undefined" && window.location.origin && window.location.protocol !== "file:") {
     return window.location.origin;
   }
   return "";
