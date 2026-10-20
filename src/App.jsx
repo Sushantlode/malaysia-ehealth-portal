@@ -7,7 +7,7 @@ import HexMap from "./components/HexMap";
 import PeoplePanel from "./components/PeoplePanel";
 import SiteFooter from "./components/SiteFooter";
 import { LANGUAGES } from "./data";
-import { SETU_OPEN_TOAST, isSetuLinkedHex, launchSetuForHex, launchSetuLogin } from "./externalLinks";
+import { SETU_OPEN_TOAST, isSetuLinkedHex, launchPortalLogin, launchSetuForHex } from "./externalLinks";
 import { launchHmis } from "./hmisLaunch";
 
 export default function App() {
@@ -120,8 +120,7 @@ export default function App() {
           );
         }}
         onLogin={() => {
-          launchSetuLogin();
-          showMessage("Opening SETU login — mobile 9999999999, OTP 000000 (copied).");
+          launchPortalLogin();
         }}
       />
 

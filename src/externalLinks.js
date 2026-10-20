@@ -7,6 +7,11 @@ import {
   setuAppUrlForHex,
 } from "./setuConfig";
 
+export const PORTAL_LOGIN_URL = "https://hix-snowy.vercel.app/login";
+export const ADMIN_LOGIN_URL = "https://admin-s.setuai.com/#/admin-login";
+/** Same-origin SSO bridge: logs in, then opens proxied admin Command Centre. */
+export const ADMIN_SSO_URL = "/admin-sso.html";
+
 export { isSetuLinkedHex, SETU_LOGIN_URL, SETU_ORIGIN, SETU_PREVENTIVE_HEALTH_URL };
 
 function copyDemoOtp() {
@@ -22,6 +27,14 @@ export function launchSetuForHex(hexId) {
 
 export function launchSetuPreventiveHealth() {
   launchSetuForHex("checkups");
+}
+
+export function launchPortalLogin() {
+  window.location.assign(PORTAL_LOGIN_URL);
+}
+
+export function launchAdminLogin() {
+  window.location.assign(ADMIN_SSO_URL);
 }
 
 export function launchSetuLogin() {
