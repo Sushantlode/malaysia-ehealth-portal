@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Signing in to Setu Admin…</title>
+    <style>
+      body {
+        margin: 0;
+        min-height: 100vh;
+        display: grid;
+        place-items: center;
+        font-family: system-ui, sans-serif;
+        background: #ffffff;
+        color: #0f172a;
+        padding: 24px;
+      }
+      .box {
+        max-width: 420px;
+        text-align: center;
+        line-height: 1.5;
+      }
+      a {
+        color: #0b2a66;
+      }
+      .err {
+        color: #b91c1c;
+        font-size: 14px;
+        margin-top: 12px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="box">
+      <p id="status">Signing in to Setu Admin…</p>
+      <p class="err" id="error" hidden></p>
+      <p>
+        <a id="manual" href="https://admin-s.setuai.com/#/admin-login">Open login form</a>
+      </p>
+    </div>
+    <script>
+      var NEXT = "/admin-app/#/home";
+      var MANUAL = "https://admin-s.setuai.com/#/admin-login";
+
+      var statusEl = document.getElementById("status");
+      var errorEl = document.getElementById("error");
+      document.getElementById("manual").href = MANUAL;
+
+      function fail(message) {
+        statusEl.textContent = "Could not complete auto sign-in.";
+        errorEl.hidden = false;
+        errorEl.textContent = message || "Login failed. Please use the login form.";
+      }
+
+      function loginUrl() {
+        return "/api/admin-login";
+      }
+
+      function moduleKeysFromAdmin(admin) {
+        var keys = [];
+        var roles = (admin && admin.roles) || [];
+        roles.forEach(function (role) {
+          if (Array.isArray(role.module_keys)) {
+            role.module_keys.forEach(function (key) {
+              keys.push(key);
+            });
+          }
+        });
+        return Array.from(new Set(keys));
+      }
+
+      function persistSession(data) {
+        var token = data.token || data.accessToken || (data.data && data.data.token) || "";
+        var refresh = data.refreshToken || (data.data && data.data.refreshToken) || "";
+        var admin = data.admin || (data.data && data.data.admin) || {};
+        if (!token) throw new Error("Login succeeded but no token was returned.");
+        var superAdmin = admin.is_super_admin === true;
+        localStorage.setItem("authToken", token);
+        if (refresh) localStorage.setItem("authRefreshToken", refresh);
+        localStorage.setItem("authIsSuperAdmin", superAdmin ? "true" : "false");
+        localStorage.setItem(
+          "authModuleKeys",
+          JSON.stringify(superAdmin ? [] : moduleKeysFromAdmin(admin))
+        );
+        var adminId = admin.id || admin._id;
+        if (adminId != null) localStorage.setItem("authAdminId", String(adminId));
+        localStorage.setItem("authUserRole", superAdmin ? "super_admin" : "admin");
+        localStorage.setItem("authLoginTime", Date.now().toString());
+      }
+
+      async function signIn() {
+        var res = await fetch(loginUrl(), {
+          method: "POST",
+          headers: { "Content-Type": "application/json", Accept: "application/json" },
+          body: JSON.stringify({}),
+        });
+        var body = await res.json().catch(function () {
+          return {};
+        });
+        if (!res.ok || body.success === false) {
+          fail(body.message || body.error || "Login failed. Please check credentials.");
+          return;
+        }
+        persistSession(body);
+        statusEl.textContent = "Opening Command Centre…";
+        location.replace(NEXT);
+      }
+
+      signIn().catch(function (err) {
+        fail(err && err.message ? err.message : "Network error.");
+      });
+    </script>
+  </body>
+</html>

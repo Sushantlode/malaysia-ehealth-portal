@@ -7,7 +7,7 @@ import HexMap from "./components/HexMap";
 import PeoplePanel from "./components/PeoplePanel";
 import SiteFooter from "./components/SiteFooter";
 import { LANGUAGES } from "./data";
-import { SETU_OPEN_TOAST, isSetuLinkedHex, launchPortalLogin, launchSetuForHex } from "./externalLinks";
+import { SETU_OPEN_TOAST, isSetuLinkedHex, launchAdminLogin, launchPortalLogin, launchSetuForHex } from "./externalLinks";
 import { launchHmis } from "./hmisLaunch";
 
 export default function App() {
@@ -60,6 +60,10 @@ export default function App() {
     if (hex.id === "hmis") {
       launchHmis();
       showMessage("Opening HMIS…");
+      return;
+    }
+    if (hex.id === "dashboard") {
+      launchAdminLogin();
       return;
     }
     if (isSetuLinkedHex(hex.id)) {

@@ -4,6 +4,15 @@
   "outputDirectory": "dist",
   "installCommand": "npm install",
   "rewrites": [
+    { "source": "/auth/:path*", "destination": "https://api.setuai.com/auth/:path*" },
+    { "source": "/sos/:path*", "destination": "https://api.setuai.com/sos/:path*" },
+    { "source": "/reports/:path*", "destination": "https://api.setuai.com/reports/:path*" },
+    { "source": "/preventive-health/:path*", "destination": "https://api.setuai.com/preventive-health/:path*" },
+    { "source": "/telemedicine/:path*", "destination": "https://api.setuai.com/telemedicine/:path*" },
+    { "source": "/assets/api/:path*", "destination": "https://api.setuai.com/assets/api/:path*" },
+    { "source": "/login", "destination": "/index.html" },
+    { "source": "/app", "destination": "/index.html" },
+    { "source": "/app/:path*", "destination": "/index.html" },
     {
       "source": "/TATA_postgres/:path*",
       "destination": "/api/hmis-backend?path=:path*"
@@ -19,6 +28,26 @@
     {
       "source": "/hims-ui/:path*",
       "destination": "http://15.252.193.15:8080/hims-ui/:path*"
+    },
+    {
+      "source": "/setu-api/:path*",
+      "destination": "https://api.setuai.com/:path*"
+    },
+    {
+      "source": "/admin-app",
+      "destination": "/api/admin-app-shell"
+    },
+    {
+      "source": "/admin-app/",
+      "destination": "/api/admin-app-shell"
+    },
+    {
+      "source": "/admin-app/:path*",
+      "destination": "/api/admin-app-asset?path=:path*"
+    },
+    {
+      "source": "/assets/:path*",
+      "destination": "/api/admin-app-asset?path=assets/:path*"
     }
   ]
 }
