@@ -79,27 +79,53 @@
         location.replace(hmisAppUrlAfterLogin());
       }
 
-      function loginViaApi() {
-        var onVercel = location.hostname.indexOf("vercel.app") !== -1;
-        if (onVercel) {
-          return fetch("/api/hmis-login", {
-            method: "GET",
-            headers: { Accept: "application/json" },
-          }).then(function (res) {
-            return res.json().then(function (body) {
-              return { ok: res.ok, body: body };
-            });
-          });
-        }
-        return fetch("/TATA_postgres/loginaction/authuserlogin/", {
-          method: "POST",
-          headers: { "Content-Type": "application/json", "X-tenantId": String(CREDS.orgId) },
-          body: JSON.stringify(CREDS),
-        }).then(function (res) {
-          return res.json().then(function (body) {
-            return { ok: res.ok, body: body };
-          });
+      function readJson(res) {
+        return res.json().then(function (body) {
+          return { ok: res.ok, body: body || {} };
         });
+      }
+
+      function loginViaApi() {
+        return fetch("/api/hmis-login", {
+          method: "GET",
+          headers: { Accept: "application/json" },
+        })
+          .then(readJson)
+          .then(function (result) {
+            if (result.ok && result.body && result.body.login_status && result.body.access_token) {
+              return result;
+            }
+            if (location.hostname.indexOf("vercel.app") !== -1) return result;
+            return loginViaProxy();
+          })
+          .catch(function () {
+            if (location.hostname.indexOf("vercel.app") !== -1) throw new Error("Login failed");
+            return loginViaProxy();
+          });
+      }
+
+      function loginViaProxy() {
+        var tenantId = String(CREDS.orgId);
+        return fetch(
+          "/TATA_postgres/loginaction/session-token?username=" + encodeURIComponent(CREDS.userName),
+          { headers: { Accept: "application/json", "X-tenantId": tenantId } }
+        )
+          .then(readJson)
+          .then(function (pre) {
+            if (!pre.ok || !pre.body.access_token) {
+              throw new Error(pre.body.msg || "HMIS pre-login token was not issued.");
+            }
+            return fetch("/TATA_postgres/loginaction/authuserlogin/", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                Accept: "application/json",
+                "X-tenantId": tenantId,
+                Authorization: "Bearer " + pre.body.access_token,
+              },
+              body: JSON.stringify(CREDS),
+            }).then(readJson);
+          });
       }
 
       var hash = location.hash || "";
@@ -114,13 +140,13 @@
         loginViaApi()
           .then(function (result) {
             var data = result.body;
-            if (!result.ok || !data.login_status) {
-              throw new Error(data.msg || "Login failed");
+            if (!result.ok || !data || !data.login_status || !data.access_token) {
+              throw new Error((data && data.msg) || "Login failed");
             }
             finishWithSession(data);
           })
           .catch(function (err) {
-            statusEl.textContent = "Auto sign-in failed.";
+            statusEl.textContent = "Auto sign-in failed. " + (err && err.message ? err.message : "");
             manualEl.textContent = "Sign in manually (superadmin / 123 / CB / TATA MD)";
             console.error(err);
           });

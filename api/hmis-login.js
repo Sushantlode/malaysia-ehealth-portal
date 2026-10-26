@@ -1,11 +1,13 @@
 /** Vercel serverless: HMIS login proxy (avoids browser CORS from GitHub Pages). */
-const HMIS_LOGIN =
-  "http://15.252.193.15:8080/TATA_postgres/loginaction/authuserlogin/";
+const HMIS_API = "http://15.252.193.15:8080/TATA_postgres";
 const CREDS = {
   userName: "superadmin",
   password: "123",
   orgId: 1,
   unitId: 1,
+  cashCounterId: null,
+  lltUnitName: null,
+  ipAddress: null,
 };
 
 export default async function handler(req, res) {
@@ -24,9 +26,28 @@ export default async function handler(req, res) {
   }
 
   try {
-    const upstream = await fetch(HMIS_LOGIN, {
+    const tenantId = String(CREDS.orgId);
+    const pre = await fetch(
+      `${HMIS_API}/loginaction/session-token?username=${encodeURIComponent(CREDS.userName)}`,
+      { headers: { Accept: "application/json", "X-tenantId": tenantId } }
+    );
+    const preBody = await pre.json().catch(() => ({}));
+    if (!pre.ok || !preBody.access_token) {
+      res.status(pre.ok ? 502 : pre.status).json({
+        login_status: false,
+        msg: preBody.msg || "HMIS pre-login token was not issued.",
+      });
+      return;
+    }
+
+    const upstream = await fetch(`${HMIS_API}/loginaction/authuserlogin/`, {
       method: "POST",
-      headers: { "Content-Type": "application/json", "X-tenantId": "1" },
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        "X-tenantId": tenantId,
+        Authorization: `Bearer ${preBody.access_token}`,
+      },
       body: JSON.stringify(CREDS),
     });
     const body = await upstream.json().catch(() => ({}));
