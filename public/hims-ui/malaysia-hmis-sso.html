@@ -27,24 +27,15 @@
   <body>
     <div class="box">
       <p id="status">Signing in to HMIS…</p>
-      <p><a id="manual" href="./index.html#/login">Open login form</a></p>
+      <p><a id="manual" href="/EHS/#/login">Open login form</a></p>
     </div>
     <script>
       var CREDS = { userName: "superadmin", password: "123", orgId: 1, unitId: 1 };
       var statusEl = document.getElementById("status");
       var manualEl = document.getElementById("manual");
 
-      var HMIS_HOME_HASH = "#/configuration/homesortcut";
-
-      function hmisUiBase() {
-        var path = location.pathname || "";
-        var idx = path.indexOf("/hims-ui");
-        if (idx !== -1) return path.slice(0, idx + "/hims-ui".length);
-        return "/hims-ui";
-      }
-
       function hmisAppUrlAfterLogin() {
-        return hmisUiBase() + "/index.html" + HMIS_HOME_HASH;
+        return "/EHS/#/configuration/homesortcut";
       }
 
       function persistSession(data) {
@@ -107,7 +98,7 @@
       function loginViaProxy() {
         var tenantId = String(CREDS.orgId);
         return fetch(
-          "/TATA_postgres/loginaction/session-token?username=" + encodeURIComponent(CREDS.userName),
+          "/ehs_beta/loginaction/session-token?username=" + encodeURIComponent(CREDS.userName),
           { headers: { Accept: "application/json", "X-tenantId": tenantId } }
         )
           .then(readJson)
@@ -115,7 +106,7 @@
             if (!pre.ok || !pre.body.access_token) {
               throw new Error(pre.body.msg || "HMIS pre-login token was not issued.");
             }
-            return fetch("/TATA_postgres/loginaction/authuserlogin/", {
+            return fetch("/ehs_beta/loginaction/authuserlogin/", {
               method: "POST",
               headers: {
                 "Content-Type": "application/json",
@@ -151,7 +142,7 @@
           })
           .catch(function (err) {
             statusEl.textContent = "Auto sign-in failed. " + (err && err.message ? err.message : "");
-            manualEl.textContent = "Sign in manually (superadmin / 123 / CB / TATA MD)";
+            manualEl.textContent = "Sign in manually (superadmin / 123 / EHS / EHS)";
             console.error(err);
           });
       })();

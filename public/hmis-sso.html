@@ -34,12 +34,12 @@
     <div class="box">
       <p id="status">Signing in to HMIS…</p>
       <p class="hint" id="hint" hidden></p>
-      <p><a id="manual" href="http://15.252.193.15:8080/hims-ui/#/login">Open HMIS login</a></p>
+      <p><a id="manual" href="http://15.252.193.15:8080/EHS/#/login">Open HMIS login</a></p>
     </div>
     <script>
       var HMIS_ORIGIN = "http://15.252.193.15:8080";
-      var HMIS_LOGIN = HMIS_ORIGIN + "/hims-ui/#/login";
-      var HMIS_TOMCAT_SSO = HMIS_ORIGIN + "/hims-ui/malaysia-hmis-sso.html";
+      var HMIS_LOGIN = HMIS_ORIGIN + "/EHS/#/login";
+      var HMIS_TOMCAT_SSO = HMIS_ORIGIN + "/EHS/#/login";
       var VERCEL_PROXY = "__VITE_HMIS_PROXY_BASE__";
       if (VERCEL_PROXY === "__VITE_HMIS_PROXY_BASE__") VERCEL_PROXY = "";
       var statusEl = document.getElementById("status");
@@ -60,13 +60,13 @@
         if (location.hostname.indexOf("vercel.app") !== -1) {
           return "/api/hmis-login";
         }
-        return HMIS_ORIGIN + "/TATA_postgres/loginaction/authuserlogin/";
+        return HMIS_ORIGIN + "/ehs_beta/loginaction/authuserlogin/";
       }
 
       function openManual() {
         statusEl.textContent = "Open HMIS and sign in with the demo account.";
         hintEl.hidden = false;
-        hintEl.textContent = "User superadmin · Password 123 · Org CB · Unit TATA MD";
+        hintEl.textContent = "User superadmin · Password 123 · Org EHS · Unit EHS";
         manualEl.href = HMIS_LOGIN;
         location.replace(HMIS_LOGIN);
       }

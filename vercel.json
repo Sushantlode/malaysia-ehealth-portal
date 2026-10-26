@@ -14,12 +14,24 @@
     { "source": "/app", "destination": "/index.html" },
     { "source": "/app/:path*", "destination": "/index.html" },
     {
-      "source": "/TATA_postgres/:path*",
+      "source": "/ehs_beta/:path*",
       "destination": "/api/hmis-backend?path=:path*"
     },
     {
-      "source": "/TATA_postgres/:path*/",
+      "source": "/ehs_beta/:path*/",
       "destination": "/api/hmis-backend?path=:path*"
+    },
+    {
+      "source": "/EHS",
+      "destination": "/api/ehs-ui?path=index.html"
+    },
+    {
+      "source": "/EHS/",
+      "destination": "/api/ehs-ui?path=index.html"
+    },
+    {
+      "source": "/EHS/:path*",
+      "destination": "/api/ehs-ui?path=:path*"
     },
     {
       "source": "/hims-ui",
